@@ -1,0 +1,147 @@
+{
+  "generated_at_utc": "2026-11-23T09:04:37.865066+00:00",
+  "model_version": "nhanes_hba1c_v2.0.0",
+  "cohort_n": 4698,
+  "positive_n": 1387,
+  "split_counts": {
+    "train": 3288,
+    "val": 705,
+    "test": 705
+  },
+  "selected_model": "LogisticRegression",
+  "selection_criterion": "Highest Validation ROC-AUC (tiebreaker: lowest Validation Brier score)",
+  "locked_thresholds": {
+    "low": 0.245,
+    "high": 0.31
+  },
+  "v2_candidates_validation": {
+    "LogisticRegression": {
+      "roc_auc": 0.7335745240674818,
+      "average_precision": 0.4616039924319631,
+      "brier_score": 0.1820825608190949,
+      "log_loss": 0.533076330247843
+    },
+    "RandomForestClassifier": {
+      "roc_auc": 0.7267160656245163,
+      "average_precision": 0.49237720039956545,
+      "brier_score": 0.1811924874302492,
+      "log_loss": 0.5319201959901865
+    },
+    "HistGradientBoostingClassifier": {
+      "roc_auc": 0.722435574988392,
+      "average_precision": 0.4757596355171678,
+      "brier_score": 0.18257865116014668,
+      "log_loss": 0.5336909549159723
+    }
+  },
+  "v2_winner_validation": {
+    "threshold": 0.245,
+    "n": 705,
+    "positive_n": 208,
+    "positive_rate": 0.2950354609929078,
+    "roc_auc": 0.7335745240674818,
+    "average_precision": 0.4616039924319631,
+    "brier_score": 0.1820825608190949,
+    "log_loss": 0.533076330247843,
+    "precision": 0.43958868894601544,
+    "recall": 0.8221153846153846,
+    "specificity": 0.5613682092555332,
+    "f1": 0.5728643216080402,
+    "f2": 0.7002457002457002,
+    "accuracy": 0.6382978723404256,
+    "balanced_accuracy": 0.6917417969354589,
+    "confusion_matrix": {
+      "tn": 279,
+      "fp": 218,
+      "fn": 37,
+      "tp": 171
+    }
+  },
+  "v2_winner_test": {
+    "threshold": 0.245,
+    "n": 705,
+    "positive_n": 208,
+    "positive_rate": 0.2950354609929078,
+    "roc_auc": 0.7532260872929887,
+    "average_precision": 0.520480840442282,
+    "brier_score": 0.17523257794650834,
+    "log_loss": 0.5228900061037048,
+    "precision": 0.4332493702770781,
+    "recall": 0.8269230769230769,
+    "specificity": 0.5472837022132797,
+    "f1": 0.5685950413223141,
+    "f2": 0.6997558991049634,
+    "accuracy": 0.6297872340425532,
+    "balanced_accuracy": 0.6871033895681783,
+    "confusion_matrix": {
+      "tn": 272,
+      "fp": 225,
+      "fn": 36,
+      "tp": 172
+    }
+  },
+  "gd3_baseline_3feat": {
+    "experiment": "EXP-EVAL-TEST-001",
+    "phase": "phase3_step6b",
+    "test_evaluated": true,
+    "evaluated_at_utc": "2026-11-02T18:21:01.358633+00:00",
+    "plan_id": "NHANES-HbA1c-6B-v0.1",
+    "model": "LogisticRegression",
+    "model_sha256": "31e9c94b0f14369be7920b9315b026d0c4afedb9f7b2885d120d631d930582b1",
+    "threshold_locked_before_test": 0.225,
+    "features": [
+      "RIDAGEYR",
+      "RIAGENDR",
+      "BMXBMI"
+    ],
+    "n_test": 705,
+    "positive_n": 208,
+    "positive_rate_unweighted": 0.2950354609929078,
+    "roc_auc": 0.7406409611515244,
+    "average_precision": 0.5118063674977568,
+    "brier_score": 0.17845448108524187,
+    "precision": 0.4069767441860465,
+    "recall": 0.8413461538461539,
+    "specificity": 0.4869215291750503,
+    "f1": 0.54858934169279,
+    "f2": 0.6933438985736925,
+    "accuracy": 0.5914893617021276,
+    "balanced_accuracy": 0.6641338415106021,
+    "confusion_matrix": {
+      "tn": 242,
+      "fp": 255,
+      "fn": 33,
+      "tp": 175
+    },
+    "pred_positive_n": 430,
+    "pred_positive_pct": 60.99290780141844,
+    "survey_weighted": false,
+    "external_validation": false,
+    "clinical_validation": false,
+    "fit_executed": false,
+    "limitations": [
+      "NHANES cross-sectional: only classifies observed HbA1c >=5.7%",
+      "not a future type 2 diabetes risk estimate or diagnosis",
+      "survey weights not used",
+      "pregnancy status unavailable for many respondents",
+      "test used once at locked threshold"
+    ]
+  },
+  "comparison_summary": {
+    "gd3_model": "LogisticRegression",
+    "gd3_features": [
+      "RIDAGEYR",
+      "RIAGENDR",
+      "BMXBMI"
+    ],
+    "gd3_test_roc_auc": 0.7406409611515244,
+    "gd3_test_average_precision": 0.5118063674977568,
+    "gd3_test_brier_score": 0.17845448108524187,
+    "v2_test_roc_auc": 0.7532260872929887,
+    "v2_test_average_precision": 0.520480840442282,
+    "v2_test_brier_score": 0.17523257794650834,
+    "roc_auc_delta": 0.012585,
+    "average_precision_delta": 0.008674,
+    "brier_score_delta": -0.003222
+  }
+}

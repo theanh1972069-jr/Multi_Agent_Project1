@@ -1,0 +1,206 @@
+{
+  "model_version": "nhanes_hba1c_v2.0.0",
+  "model_name": "LogisticRegression",
+  "model_sha256": "5ab1976c0f415c4d13e03e1529327532cebc69a05a9c1c293394dc0640edf3ce",
+  "sha256": "5ab1976c0f415c4d13e03e1529327532cebc69a05a9c1c293394dc0640edf3ce",
+  "trained_at_utc": "2026-11-23T09:04:37.865066+00:00",
+  "source": "NHANES August 2021-August 2023 (DEMO_L, BMX_L, DIQ_L, GHB_L)",
+  "cohort": "screening_candidate (RIDAGEYR >= 20, DIQ010 == 2, RIDEXPRG != 1, LBXGH notna)",
+  "target": "LBXGH >= 5.7% (HbA1c screening indicator)",
+  "features": [
+    "RIDAGEYR",
+    "RIAGENDR",
+    "BMXBMI",
+    "BMXWAIST",
+    "WHtR",
+    "WHR"
+  ],
+  "feature_labels_vi": {
+    "RIDAGEYR": "Tuổi",
+    "RIAGENDR": "Giới tính",
+    "BMXBMI": "Chỉ số BMI",
+    "BMXWAIST": "Vòng eo (cm)",
+    "WHtR": "Tỷ lệ Vòng eo / Chiều cao",
+    "WHR": "Tỷ lệ Vòng eo / Vòng hông"
+  },
+  "split": {
+    "total_n": 4698,
+    "total_positive_n": 1387,
+    "train_n": 3288,
+    "val_n": 705,
+    "test_n": 705,
+    "random_state": 42,
+    "stratified": true
+  },
+  "feature_stats": {
+    "RIDAGEYR": {
+      "median": 55.0,
+      "mean": 52.5414,
+      "std": 17.204,
+      "min": 20.0,
+      "max": 80.0,
+      "missing_train_n": 0
+    },
+    "BMXBMI": {
+      "median": 27.8,
+      "mean": 29.153,
+      "std": 6.9983,
+      "min": 14.1,
+      "max": 74.8,
+      "missing_train_n": 37
+    },
+    "BMXWAIST": {
+      "median": 97.6,
+      "mean": 99.115,
+      "std": 16.0462,
+      "min": 60.0,
+      "max": 187.0,
+      "missing_train_n": 126
+    },
+    "WHtR": {
+      "median": 0.5834,
+      "mean": 0.5933,
+      "std": 0.0959,
+      "min": 0.3748,
+      "max": 1.0549,
+      "missing_train_n": 129
+    },
+    "WHR": {
+      "median": 0.9254,
+      "mean": 0.9257,
+      "std": 0.0836,
+      "min": 0.6571,
+      "max": 1.1861,
+      "missing_train_n": 152
+    },
+    "RIAGENDR": {
+      "counts": {
+        "2": 1810,
+        "1": 1478
+      },
+      "missing_train_n": 0
+    }
+  },
+  "thresholds": {
+    "low": 0.245,
+    "high": 0.31,
+    "low_criterion": "Highest Validation specificity with Recall >= 0.80",
+    "high_criterion": "Highest Validation F1 among thresholds > low"
+  },
+  "validation_metrics": {
+    "threshold": 0.245,
+    "n": 705,
+    "positive_n": 208,
+    "positive_rate": 0.2950354609929078,
+    "roc_auc": 0.7335745240674818,
+    "average_precision": 0.4616039924319631,
+    "brier_score": 0.1820825608190949,
+    "log_loss": 0.533076330247843,
+    "precision": 0.43958868894601544,
+    "recall": 0.8221153846153846,
+    "specificity": 0.5613682092555332,
+    "f1": 0.5728643216080402,
+    "f2": 0.7002457002457002,
+    "accuracy": 0.6382978723404256,
+    "balanced_accuracy": 0.6917417969354589,
+    "confusion_matrix": {
+      "tn": 279,
+      "fp": 218,
+      "fn": 37,
+      "tp": 171
+    },
+    "at_threshold_high": {
+      "threshold": 0.31,
+      "n": 705,
+      "positive_n": 208,
+      "positive_rate": 0.2950354609929078,
+      "roc_auc": 0.7335745240674818,
+      "average_precision": 0.4616039924319631,
+      "brier_score": 0.1820825608190949,
+      "log_loss": 0.533076330247843,
+      "precision": 0.48026315789473684,
+      "recall": 0.7019230769230769,
+      "specificity": 0.682092555331992,
+      "f1": 0.5703125,
+      "f2": 0.6426056338028169,
+      "accuracy": 0.6879432624113475,
+      "balanced_accuracy": 0.6920078161275345,
+      "confusion_matrix": {
+        "tn": 339,
+        "fp": 158,
+        "fn": 62,
+        "tp": 146
+      }
+    }
+  },
+  "test_metrics": {
+    "threshold": 0.245,
+    "n": 705,
+    "positive_n": 208,
+    "positive_rate": 0.2950354609929078,
+    "roc_auc": 0.7532260872929887,
+    "average_precision": 0.520480840442282,
+    "brier_score": 0.17523257794650834,
+    "log_loss": 0.5228900061037048,
+    "precision": 0.4332493702770781,
+    "recall": 0.8269230769230769,
+    "specificity": 0.5472837022132797,
+    "f1": 0.5685950413223141,
+    "f2": 0.6997558991049634,
+    "accuracy": 0.6297872340425532,
+    "balanced_accuracy": 0.6871033895681783,
+    "confusion_matrix": {
+      "tn": 272,
+      "fp": 225,
+      "fn": 36,
+      "tp": 172
+    },
+    "at_threshold_high": {
+      "threshold": 0.31,
+      "n": 705,
+      "positive_n": 208,
+      "positive_rate": 0.2950354609929078,
+      "roc_auc": 0.7532260872929887,
+      "average_precision": 0.520480840442282,
+      "brier_score": 0.17523257794650834,
+      "log_loss": 0.5228900061037048,
+      "precision": 0.4837662337662338,
+      "recall": 0.7163461538461539,
+      "specificity": 0.6800804828973843,
+      "f1": 0.5775193798449613,
+      "f2": 0.6535087719298246,
+      "accuracy": 0.6907801418439716,
+      "balanced_accuracy": 0.6982133183717691,
+      "confusion_matrix": {
+        "tn": 338,
+        "fp": 159,
+        "fn": 59,
+        "tp": 149
+      }
+    }
+  },
+  "baseline_comparison": {
+    "gd3_model": "LogisticRegression",
+    "gd3_features": [
+      "RIDAGEYR",
+      "RIAGENDR",
+      "BMXBMI"
+    ],
+    "gd3_test_roc_auc": 0.7406409611515244,
+    "gd3_test_average_precision": 0.5118063674977568,
+    "gd3_test_brier_score": 0.17845448108524187,
+    "v2_test_roc_auc": 0.7532260872929887,
+    "v2_test_average_precision": 0.520480840442282,
+    "v2_test_brier_score": 0.17523257794650834,
+    "roc_auc_delta": 0.012585,
+    "average_precision_delta": 0.008674,
+    "brier_score_delta": -0.003222
+  },
+  "limitations": [
+    "NHANES 2021-2023 cross-sectional survey: only classifies observed HbA1c >= 5.7%.",
+    "Not a clinical diabetes diagnosis or a longitudinal forecast of future type 2 diabetes.",
+    "NHANES complex survey weights (WTPH2YR) were not applied during model fitting.",
+    "Pregnancy status (RIDEXPRG) is only published for women aged 20-44; NaN rows are retained after excluding confirmed RIDEXPRG == 1.",
+    "Local feature contributions indicate statistical contribution to the model score, not causal etiology."
+  ]
+}
