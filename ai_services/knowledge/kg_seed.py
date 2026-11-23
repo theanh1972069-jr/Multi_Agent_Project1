@@ -1,0 +1,675 @@
+from __future__ import annotations
+
+import csv
+import json
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_DOCS_PREP_DIR = (
+    REPO_ROOT
+    / "Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau"
+    / "Giai-doan-4-Buoc-2-Jupyter-Document-Preparation"
+)
+DEFAULT_REGISTRY_CSV = DEFAULT_DOCS_PREP_DIR / "registry" / "source_registry.csv"
+DEFAULT_RAW_APPROVED_DIR = DEFAULT_DOCS_PREP_DIR / "data" / "raw_approved"
+
+
+def load_default_source_registry() -> list[dict]:
+    """Load metadata for the 7 vetted diabetes sources from `source_registry.csv`."""
+    if not DEFAULT_REGISTRY_CSV.exists():
+        raise FileNotFoundError(f"Missing source registry CSV: {DEFAULT_REGISTRY_CSV}")
+
+    records: list[dict] = []
+    with DEFAULT_REGISTRY_CSV.open("r", encoding="utf-8-sig", newline="") as fh:
+        reader = csv.DictReader(fh)
+        for row in reader:
+            source_id = row["source_id"].strip()
+            file_path = DEFAULT_RAW_APPROVED_DIR / f"{source_id}.txt"
+            records.append(
+                {
+                    "source_id": source_id,
+                    "publisher": row["publisher"].strip(),
+                    "title": row["title"].strip(),
+                    "source_url": row["canonical_url"].strip() or None,
+                    "language": row["language"].strip(),
+                    "file_path": file_path.relative_to(REPO_ROOT).as_posix(),
+                }
+            )
+    return records
+
+
+def build_curated_kg() -> dict:
+    """Build the curated Diabetes Knowledge Graph strictly grounded in the 7 approved sources."""
+    sources = load_default_source_registry()
+    source_map = {s["source_id"]: s for s in sources}
+
+    nodes: list[dict] = [
+        # --- Conditions ---
+        {
+            "id": "cond_insulin_resistance",
+            "label": "Kháng insulin (Insulin Resistance)",
+            "type": "Condition",
+            "source_ids": ["CDC-T2D-001", "NIDDK-T2D-004", "WHO-DIAB-005", "LC-STAGES-007"],
+            "keywords": ["khang insulin", "insulin resistance", "de khang insulin", "giai doan 1"],
+            "description": "Giai đoạn sớm khi tế bào không đáp ứng bình thường với insulin, khiến glucose tích tụ dần trong máu.",
+        },
+        {
+            "id": "cond_prediabetes",
+            "label": "Tiền tiểu đường (Prediabetes)",
+            "type": "Condition",
+            "source_ids": [
+                "CDC-T2D-001",
+                "CDC-RISK-002",
+                "NIDDK-DIAG-003",
+                "NIDDK-T2D-004",
+                "LC-HBA1C-006",
+                "LC-STAGES-007",
+            ],
+            "keywords": ["tien tieu duong", "prediabetes", "tien dai thao duong", "giai doan 2"],
+            "description": "Đường huyết cao hơn bình thường nhưng chưa đạt ngưỡng chẩn đoán tiểu đường (HbA1c 5.7% - 6.4%); có thể đảo ngược bằng lối sống.",
+        },
+        {
+            "id": "cond_t2d",
+            "label": "Tiểu đường type 2 (Type 2 Diabetes)",
+            "type": "Condition",
+            "source_ids": [
+                "CDC-T2D-001",
+                "CDC-RISK-002",
+                "NIDDK-DIAG-003",
+                "NIDDK-T2D-004",
+                "WHO-DIAB-005",
+                "LC-HBA1C-006",
+                "LC-STAGES-007",
+            ],
+            "keywords": ["tieu duong type 2", "tieu duong tuyp 2", "type 2 diabetes", "dai thao duong", "tieu duong"],
+            "description": "Dạng tiểu đường phổ biến nhất (90%-95% ca bệnh ở Mỹ theo CDC), xảy ra khi cơ thể kháng insulin hoặc không tiết đủ insulin.",
+        },
+        {
+            "id": "cond_t1d",
+            "label": "Tiểu đường type 1 (Type 1 Diabetes)",
+            "type": "Condition",
+            "source_ids": ["CDC-RISK-002", "NIDDK-DIAG-003", "WHO-DIAB-005", "LC-STAGES-007"],
+            "keywords": ["tieu duong type 1", "type 1 diabetes", "tu mien", "autoimmune"],
+            "description": "Tình trạng mạn tính do phản ứng tự miễn khiến tuyến tụy sản xuất rất ít hoặc không sản xuất insulin.",
+        },
+        {
+            "id": "cond_gestational",
+            "label": "Tiểu đường thai kỳ (Gestational Diabetes)",
+            "type": "Condition",
+            "source_ids": ["CDC-RISK-002", "NIDDK-DIAG-003", "NIDDK-T2D-004"],
+            "keywords": ["tieu duong thai ky", "gestational diabetes", "mang thai", "pregnancy"],
+            "description": "Tiểu đường phát hiện khi mang thai (khuyến nghị tầm soát ở tuần 24-28); làm tăng nguy cơ tiểu đường type 2 về sau.",
+        },
+        # --- Risk Factors ---
+        {
+            "id": "rf_overweight_bmi",
+            "label": "Thừa cân / Béo phì (BMI cao)",
+            "type": "RiskFactor",
+            "source_ids": [
+                "CDC-T2D-001",
+                "CDC-RISK-002",
+                "NIDDK-DIAG-003",
+                "NIDDK-T2D-004",
+                "LC-HBA1C-006",
+                "LC-STAGES-007",
+            ],
+            "keywords": ["bmi", "thua can", "beo phi", "overweight", "obesity", "can nang"],
+            "description": "Thừa cân hoặc béo phì (BMI cao) là yếu tố nguy cơ hàng đầu dẫn đến kháng insulin, tiền tiểu đường và tiểu đường type 2.",
+        },
+        {
+            "id": "rf_large_waist",
+            "label": "Béo bụng / Vòng eo lớn",
+            "type": "RiskFactor",
+            "source_ids": ["LC-STAGES-007"],
+            "keywords": ["vong eo", "beo bung", "waist", "tang can vung bung", "mo noi tang"],
+            "description": "Vòng eo lớn và tăng cân vùng bụng là dấu hiệu thường gặp liên quan đến giai đoạn kháng insulin.",
+        },
+        {
+            "id": "rf_age_45",
+            "label": "Tuổi >= 45 (hoặc >= 35 khi có yếu tố nguy cơ)",
+            "type": "RiskFactor",
+            "source_ids": ["CDC-T2D-001", "CDC-RISK-002", "NIDDK-DIAG-003", "NIDDK-T2D-004"],
+            "keywords": ["tuoi", "age", "45", "35", "trung nien", "lon tuoi"],
+            "description": "CDC và NIDDK ghi nhận nguy cơ tiểu đường type 2 tăng rõ từ tuổi 45 trở lên (khuyến nghị tầm soát thường quy từ tuổi 35 nếu có yếu tố nguy cơ).",
+        },
+        {
+            "id": "rf_family_history",
+            "label": "Tiền sử gia đình mắc tiểu đường",
+            "type": "RiskFactor",
+            "source_ids": ["CDC-T2D-001", "CDC-RISK-002", "NIDDK-T2D-004", "LC-STAGES-007"],
+            "keywords": ["gia dinh", "family history", "bo me", "anh chi em", "di truyen"],
+            "description": "Có cha mẹ hoặc anh chị em ruột mắc tiểu đường làm tăng nguy cơ tiền tiểu đường và tiểu đường type 2.",
+        },
+        {
+            "id": "rf_inactivity",
+            "label": "Ít vận động thể chất (< 3 lần/tuần)",
+            "type": "RiskFactor",
+            "source_ids": ["CDC-T2D-001", "CDC-RISK-002", "NIDDK-T2D-004"],
+            "keywords": ["it van dong", "physical inactivity", "luoi van dong", "inactive"],
+            "description": "Vận động thể chất dưới 3 lần mỗi tuần làm giảm độ nhạy insulin và tăng nguy cơ tiểu đường type 2.",
+        },
+        {
+            "id": "rf_nafld",
+            "label": "Gan nhiễm mỡ không do rượu (NAFLD)",
+            "type": "RiskFactor",
+            "source_ids": ["CDC-T2D-001", "CDC-RISK-002", "NIDDK-T2D-004"],
+            "keywords": ["nafld", "gan nhiem mo", "fatty liver"],
+            "description": "Người mắc gan nhiễm mỡ không do rượu có nguy cơ cao hơn phát triển tiền tiểu đường và tiểu đường type 2.",
+        },
+        {
+            "id": "rf_history_gdm",
+            "label": "Tiền sử tiểu đường thai kỳ / Sinh con > 9 pounds",
+            "type": "RiskFactor",
+            "source_ids": ["CDC-T2D-001", "CDC-RISK-002", "NIDDK-DIAG-003", "NIDDK-T2D-004"],
+            "keywords": ["tien su thai ky", "gestational", "9 pounds", "sinh con to"],
+            "description": "Phụ nữ từng bị tiểu đường thai kỳ hoặc sinh con nặng trên 9 pounds có nguy cơ cao mắc tiểu đường type 2.",
+        },
+        {
+            "id": "rf_pcos",
+            "label": "Hội chứng buồng trứng đa nang (PCOS)",
+            "type": "RiskFactor",
+            "source_ids": ["CDC-RISK-002"],
+            "keywords": ["pcos", "buong trung da nang", "polycystic ovary"],
+            "description": "PCOS là yếu tố nguy cơ liên quan đến tiểu đường thai kỳ theo CDC.",
+        },
+        {
+            "id": "rf_hypertension_lipids",
+            "label": "Tăng huyết áp & Rối loạn lipid máu",
+            "type": "RiskFactor",
+            "source_ids": ["NIDDK-T2D-004", "WHO-DIAB-005", "LC-STAGES-007"],
+            "keywords": ["huyet ap", "blood pressure", "cholesterol", "lipid", "mo mau"],
+            "description": "Huyết áp cao và rối loạn lipid máu đi kèm tăng nguy cơ tiểu đường type 2 và biến chứng tim mạch.",
+        },
+        # --- Biomarkers ---
+        {
+            "id": "bio_hba1c",
+            "label": "Chỉ số HbA1c (Hemoglobin A1c)",
+            "type": "Biomarker",
+            "source_ids": ["NIDDK-DIAG-003", "LC-HBA1C-006", "LC-STAGES-007"],
+            "keywords": ["hba1c", "a1c", "hemoglobin a1c", "glycated hemoglobin", "5.7", "6.4", "6.5"],
+            "description": "Xét nghiệm máu phản ánh đường huyết trung bình 2-3 tháng gần nhất: Bình thường < 5.7%, Tiền tiểu đường 5.7%-6.4%, Đái tháo đường >= 6.5%.",
+        },
+        {
+            "id": "bio_fpg",
+            "label": "Đường huyết lúc đói (FPG)",
+            "type": "Biomarker",
+            "source_ids": ["NIDDK-DIAG-003", "LC-STAGES-007"],
+            "keywords": ["fpg", "fasting plasma glucose", "duong huyet luc doi", "nhin an 8 gio"],
+            "description": "Đo đường huyết sau khi nhịn ăn ít nhất 8 giờ: Tiền tiểu đường 5.6-6.9 mmol/L; Tiểu đường type 2 >= 7.0 mmol/L.",
+        },
+        {
+            "id": "bio_ogtt",
+            "label": "Nghiệm pháp dung nạp glucose (OGTT 2 giờ)",
+            "type": "Biomarker",
+            "source_ids": ["NIDDK-DIAG-003", "LC-STAGES-007"],
+            "keywords": ["ogtt", "oral glucose tolerance", "dung nap glucose"],
+            "description": "Đo đường huyết sau uống dung dịch đường 2 giờ: Tiền tiểu đường 7.8-11.0 mmol/L; Tiểu đường type 2 >= 11.1 mmol/L.",
+        },
+        {
+            "id": "bio_random_glucose",
+            "label": "Đường huyết bất kỳ (Random Plasma Glucose)",
+            "type": "Biomarker",
+            "source_ids": ["NIDDK-DIAG-003", "LC-STAGES-007"],
+            "keywords": ["random plasma glucose", "duong huyet bat ky", "11.1"],
+            "description": "Đo đường huyết tại bất kỳ thời điểm nào khi có triệu chứng điển hình (>= 11.1 mmol/L).",
+        },
+        # --- Symptoms ---
+        {
+            "id": "sym_thirst_urination",
+            "label": "Khát nước nhiều & Đi tiểu nhiều",
+            "type": "Symptom",
+            "source_ids": ["NIDDK-DIAG-003", "NIDDK-T2D-004", "WHO-DIAB-005", "LC-HBA1C-006", "LC-STAGES-007"],
+            "keywords": ["khat", "tieu nhieu", "thirst", "urination", "da nieu"],
+            "description": "Triệu chứng kinh điển của tăng đường huyết khi thận đào thải glucose dư thừa.",
+        },
+        {
+            "id": "sym_fatigue",
+            "label": "Mệt mỏi kéo dài",
+            "type": "Symptom",
+            "source_ids": ["NIDDK-T2D-004", "WHO-DIAB-005", "LC-HBA1C-006", "LC-STAGES-007"],
+            "keywords": ["met moi", "fatigue", "tired"],
+            "description": "Cơ thể thiếu năng lượng do glucose không đi vào tế bào hiệu quả.",
+        },
+        {
+            "id": "sym_blurred_vision",
+            "label": "Nhìn mờ",
+            "type": "Symptom",
+            "source_ids": ["NIDDK-T2D-004", "WHO-DIAB-005", "LC-STAGES-007"],
+            "keywords": ["nhin mo", "mo mat", "blurred vision", "vision changes"],
+            "description": "Đường huyết tăng cao có thể làm thay đổi thị lực và gây nhìn mờ.",
+        },
+        {
+            "id": "sym_weight_loss",
+            "label": "Sụt cân không rõ nguyên nhân",
+            "type": "Symptom",
+            "source_ids": ["NIDDK-T2D-004", "WHO-DIAB-005", "LC-STAGES-007"],
+            "keywords": ["sut can", "giam can", "weight loss"],
+            "description": "Thường gặp ở tiểu đường type 1 hoặc giai đoạn tiểu đường type 2 rõ rệt.",
+        },
+        {
+            "id": "sym_slow_healing_numbness",
+            "label": "Vết thương lâu lành & Tê bì tay chân",
+            "type": "Symptom",
+            "source_ids": ["NIDDK-T2D-004", "LC-STAGES-007"],
+            "keywords": ["vet thuong lau lanh", "te bi", "sores", "numbness", "tingling"],
+            "description": "Biểu hiện cảnh báo đường huyết cao kéo dài ảnh hưởng mạch máu và thần kinh ngoại biên.",
+        },
+        # --- Complications ---
+        {
+            "id": "comp_cardiovascular",
+            "label": "Bệnh tim mạch & Đột quỵ",
+            "type": "Complication",
+            "source_ids": ["CDC-T2D-001", "NIDDK-T2D-004", "WHO-DIAB-005", "LC-HBA1C-006", "LC-STAGES-007"],
+            "keywords": ["tim mach", "heart disease", "stroke", "dot quy", "nhoi mau co tim", "suy tim"],
+            "description": "Biến chứng mạch máu lớn nghiêm trọng khi đường huyết không được kiểm soát.",
+        },
+        {
+            "id": "comp_kidney",
+            "label": "Bệnh thận đái tháo đường",
+            "type": "Complication",
+            "source_ids": ["CDC-T2D-001", "NIDDK-T2D-004", "WHO-DIAB-005", "LC-HBA1C-006", "LC-STAGES-007"],
+            "keywords": ["benh than", "kidney", "suy than", "microalbumin"],
+            "description": "Tổn thương vi mạch thận do tăng đường huyết kéo dài, có thể tiến triển thành suy thận.",
+        },
+        {
+            "id": "comp_retinopathy",
+            "label": "Tổn thương mắt / Bệnh võng mạc",
+            "type": "Complication",
+            "source_ids": ["CDC-T2D-001", "NIDDK-T2D-004", "WHO-DIAB-005", "LC-HBA1C-006", "LC-STAGES-007"],
+            "keywords": ["vong mac", "eye disease", "vision loss", "mu loa", "mat"],
+            "description": "Tổn thương mạch máu võng mạc có nguy cơ gây giảm thị lực hoặc mù lòa.",
+        },
+        {
+            "id": "comp_neuropathy_foot",
+            "label": "Tổn thương thần kinh & Loét bàn chân",
+            "type": "Complication",
+            "source_ids": ["NIDDK-T2D-004", "WHO-DIAB-005", "LC-HBA1C-006", "LC-STAGES-007"],
+            "keywords": ["than kinh", "nerve damage", "ban chan", "loet", "foot problems"],
+            "description": "Tổn thương thần kinh ngoại biên kết hợp thiếu máu gây tê bì, loét bàn chân khó lành.",
+        },
+        # --- Lifestyle Recommendations ---
+        {
+            "id": "life_diet",
+            "label": "Chế độ ăn nhiều chất xơ & tinh bột phức",
+            "type": "LifestyleRecommendation",
+            "source_ids": [
+                "CDC-T2D-001",
+                "CDC-RISK-002",
+                "NIDDK-T2D-004",
+                "WHO-DIAB-005",
+                "LC-HBA1C-006",
+                "LC-STAGES-007",
+            ],
+            "keywords": ["che do an", "dinh duong", "chat xo", "tinh bot phuc", "healthy diet", "healthy eating"],
+            "description": "Tăng rau xanh, ngũ cốc nguyên hạt, đạm nạc; hạn chế đường tinh luyện và nước ngọt giúp ổn định đường huyết.",
+        },
+        {
+            "id": "life_exercise",
+            "label": "Vận động thể lực >= 150 phút/tuần",
+            "type": "LifestyleRecommendation",
+            "source_ids": [
+                "CDC-T2D-001",
+                "CDC-RISK-002",
+                "NIDDK-T2D-004",
+                "WHO-DIAB-005",
+                "LC-HBA1C-006",
+                "LC-STAGES-007",
+            ],
+            "keywords": ["van dong", "tap luyen", "150 phut", "30 phut", "physical activity", "exercise"],
+            "description": "Duy trì ít nhất 150 phút vận động cường độ trung bình mỗi tuần (30 phút/ngày, 5 ngày/tuần) để tăng độ nhạy insulin.",
+        },
+        {
+            "id": "life_weight_control",
+            "label": "Kiểm soát cân nặng (giảm 5-7% khi thừa cân)",
+            "type": "LifestyleRecommendation",
+            "source_ids": ["CDC-T2D-001", "CDC-RISK-002", "NIDDK-T2D-004", "LC-HBA1C-006", "LC-STAGES-007"],
+            "keywords": ["giam can", "can nang", "5-7%", "bmi", "lose weight", "weight"],
+            "description": "Giảm 5%-7% trọng lượng cơ thể khi thừa cân giúp cải thiện rõ rệt HbA1c và giảm nguy cơ tiến triển thành tiểu đường type 2.",
+        },
+        {
+            "id": "life_monitoring",
+            "label": "Theo dõi đường huyết & Khám định kỳ",
+            "type": "LifestyleRecommendation",
+            "source_ids": ["CDC-T2D-001", "NIDDK-DIAG-003", "WHO-DIAB-005", "LC-HBA1C-006", "LC-STAGES-007"],
+            "keywords": ["theo doi", "kham dinh ky", "xet nghiem", "screening", "retested", "hang nam"],
+            "description": "Người có tiền tiểu đường nên kiểm tra đường huyết/HbA1c ít nhất mỗi năm (hoặc theo lịch bác sĩ); kết quả bình thường kiểm tra lại mỗi 3 năm.",
+        },
+        {
+            "id": "life_stress_sleep",
+            "label": "Quản lý căng thẳng & Ngủ đủ 7-8 giờ",
+            "type": "LifestyleRecommendation",
+            "source_ids": ["CDC-T2D-001", "LC-HBA1C-006", "LC-STAGES-007"],
+            "keywords": ["cang thang", "stress", "ngu du", "sleep", "cortisol"],
+            "description": "Ngủ đủ 7-8 giờ mỗi đêm và giảm stress giúp hạn chế tăng cortisol gây rối loạn đường huyết.",
+        },
+        {
+            "id": "life_no_smoking_bp",
+            "label": "Bỏ thuốc lá & Kiểm soát huyết áp, mỡ máu",
+            "type": "LifestyleRecommendation",
+            "source_ids": ["NIDDK-T2D-004", "WHO-DIAB-005", "LC-STAGES-007"],
+            "keywords": ["bo thuoc la", "smoking", "huyet ap", "cholesterol", "lipids"],
+            "description": "WHO và NIDDK nhấn mạnh bỏ thuốc lá và kiểm soát huyết áp, mỡ máu để giảm biến chứng tim mạch và thận.",
+        },
+    ]
+
+    # Add SourceDocument nodes for each of the 7 real documents
+    for src in sources:
+        nodes.append(
+            {
+                "id": src["source_id"],
+                "label": f"{src['publisher']}: {src['title']}",
+                "type": "SourceDocument",
+                "source_ids": [src["source_id"]],
+                "source_url": src["source_url"],
+                "language": src["language"],
+                "keywords": [src["source_id"].lower(), src["publisher"].lower(), src["title"].lower()],
+                "description": f"Tài liệu nguồn {src['source_id']} từ {src['publisher']} ({src['language']}).",
+            }
+        )
+
+    edges: list[dict] = [
+        # --- INCREASES_RISK_OF ---
+        {
+            "source": "rf_overweight_bmi",
+            "target": "cond_prediabetes",
+            "relation": "INCREASES_RISK_OF",
+            "source_ids": ["CDC-RISK-002", "NIDDK-T2D-004", "LC-HBA1C-006", "LC-STAGES-007"],
+            "description": "Thừa cân/béo phì (BMI cao) làm tăng nguy cơ tiền tiểu đường và kháng insulin.",
+        },
+        {
+            "source": "rf_overweight_bmi",
+            "target": "cond_t2d",
+            "relation": "INCREASES_RISK_OF",
+            "source_ids": ["CDC-T2D-001", "CDC-RISK-002", "NIDDK-DIAG-003", "NIDDK-T2D-004", "LC-STAGES-007"],
+            "description": "Thừa cân hoặc béo phì (BMI cao) là yếu tố nguy cơ chính của tiểu đường type 2.",
+        },
+        {
+            "source": "rf_overweight_bmi",
+            "target": "cond_gestational",
+            "relation": "INCREASES_RISK_OF",
+            "source_ids": ["CDC-RISK-002"],
+            "description": "Thừa cân hoặc béo phì làm tăng nguy cơ tiểu đường thai kỳ.",
+        },
+        {
+            "source": "rf_large_waist",
+            "target": "cond_insulin_resistance",
+            "relation": "INCREASES_RISK_OF",
+            "source_ids": ["LC-STAGES-007"],
+            "description": "Vòng eo lớn và béo bụng gắn liền với giai đoạn kháng insulin sớm.",
+        },
+        {
+            "source": "rf_age_45",
+            "target": "cond_t2d",
+            "relation": "INCREASES_RISK_OF",
+            "source_ids": ["CDC-T2D-001", "CDC-RISK-002", "NIDDK-DIAG-003", "NIDDK-T2D-004"],
+            "description": "Tuổi >= 45 làm tăng nguy cơ mắc tiền tiểu đường và tiểu đường type 2.",
+        },
+        {
+            "source": "rf_family_history",
+            "target": "cond_t2d",
+            "relation": "INCREASES_RISK_OF",
+            "source_ids": ["CDC-T2D-001", "CDC-RISK-002", "NIDDK-T2D-004", "LC-STAGES-007"],
+            "description": "Có cha mẹ hoặc anh chị em ruột mắc tiểu đường type 2 làm tăng nguy cơ mắc bệnh.",
+        },
+        {
+            "source": "rf_inactivity",
+            "target": "cond_t2d",
+            "relation": "INCREASES_RISK_OF",
+            "source_ids": ["CDC-T2D-001", "CDC-RISK-002", "NIDDK-T2D-004"],
+            "description": "Ít vận động thể chất (< 3 lần/tuần) làm tăng nguy cơ tiền tiểu đường và tiểu đường type 2.",
+        },
+        {
+            "source": "rf_nafld",
+            "target": "cond_t2d",
+            "relation": "INCREASES_RISK_OF",
+            "source_ids": ["CDC-T2D-001", "CDC-RISK-002", "NIDDK-T2D-004"],
+            "description": "Gan nhiễm mỡ không do rượu (NAFLD) làm tăng nguy cơ tiểu đường type 2.",
+        },
+        {
+            "source": "rf_history_gdm",
+            "target": "cond_t2d",
+            "relation": "INCREASES_RISK_OF",
+            "source_ids": ["CDC-T2D-001", "CDC-RISK-002", "NIDDK-DIAG-003", "NIDDK-T2D-004"],
+            "description": "Tiền sử tiểu đường thai kỳ hoặc sinh con nặng > 9 pounds làm tăng nguy cơ tiểu đường type 2.",
+        },
+        {
+            "source": "rf_pcos",
+            "target": "cond_gestational",
+            "relation": "INCREASES_RISK_OF",
+            "source_ids": ["CDC-RISK-002"],
+            "description": "Hội chứng buồng trứng đa nang (PCOS) làm tăng nguy cơ tiểu đường thai kỳ.",
+        },
+        {
+            "source": "rf_hypertension_lipids",
+            "target": "cond_t2d",
+            "relation": "INCREASES_RISK_OF",
+            "source_ids": ["NIDDK-T2D-004", "LC-STAGES-007"],
+            "description": "Tăng huyết áp và rối loạn lipid máu gắn với nguy cơ tiểu đường type 2.",
+        },
+        {
+            "source": "cond_insulin_resistance",
+            "target": "cond_prediabetes",
+            "relation": "CAN_LEAD_TO",
+            "source_ids": ["CDC-T2D-001", "LC-STAGES-007"],
+            "description": "Kháng insulin kéo dài khiến tuyến tụy quá tải, dẫn đến tăng đường huyết giai đoạn tiền tiểu đường.",
+        },
+        {
+            "source": "cond_prediabetes",
+            "target": "cond_t2d",
+            "relation": "INCREASES_RISK_OF",
+            "source_ids": ["CDC-T2D-001", "CDC-RISK-002", "NIDDK-DIAG-003", "LC-HBA1C-006", "LC-STAGES-007"],
+            "description": "Tiền tiểu đường làm tăng rõ rệt nguy cơ tiến triển sang tiểu đường type 2 nếu không can thiệp lối sống.",
+        },
+        # --- MEASURED_BY & HAS_THRESHOLD ---
+        {
+            "source": "cond_prediabetes",
+            "target": "bio_hba1c",
+            "relation": "MEASURED_BY",
+            "source_ids": ["NIDDK-DIAG-003", "LC-HBA1C-006", "LC-STAGES-007"],
+            "description": "Tiền tiểu đường được sàng lọc và đánh giá bằng chỉ số HbA1c phản ánh đường huyết trung bình 2-3 tháng.",
+        },
+        {
+            "source": "bio_hba1c",
+            "target": "cond_prediabetes",
+            "relation": "HAS_THRESHOLD",
+            "source_ids": ["LC-HBA1C-006", "LC-STAGES-007"],
+            "description": "Ngưỡng HbA1c tiền tiểu đường theo ADA: 5.7% đến 6.4% (bình thường < 5.7%).",
+        },
+        {
+            "source": "bio_hba1c",
+            "target": "cond_t2d",
+            "relation": "HAS_THRESHOLD",
+            "source_ids": ["LC-HBA1C-006", "LC-STAGES-007"],
+            "description": "Ngưỡng HbA1c chẩn đoán đái tháo đường: từ 6.5% trở lên.",
+        },
+        {
+            "source": "cond_t2d",
+            "target": "bio_fpg",
+            "relation": "MEASURED_BY",
+            "source_ids": ["NIDDK-DIAG-003", "LC-STAGES-007"],
+            "description": "Đường huyết lúc đói (FPG, nhịn ăn >= 8 giờ) dùng để chẩn đoán tiền tiểu đường và tiểu đường.",
+        },
+        {
+            "source": "bio_fpg",
+            "target": "cond_prediabetes",
+            "relation": "HAS_THRESHOLD",
+            "source_ids": ["LC-STAGES-007"],
+            "description": "Đường huyết lúc đói tiền tiểu đường: 5.6 đến 6.9 mmol/L.",
+        },
+        {
+            "source": "bio_fpg",
+            "target": "cond_t2d",
+            "relation": "HAS_THRESHOLD",
+            "source_ids": ["LC-STAGES-007"],
+            "description": "Đường huyết lúc đói tiểu đường type 2: >= 7.0 mmol/L.",
+        },
+        {
+            "source": "cond_prediabetes",
+            "target": "bio_ogtt",
+            "relation": "MEASURED_BY",
+            "source_ids": ["NIDDK-DIAG-003", "LC-STAGES-007"],
+            "description": "Nghiệm pháp dung nạp glucose 2 giờ (OGTT) phát hiện tiền tiểu đường, type 2 và tiểu đường thai kỳ.",
+        },
+        {
+            "source": "bio_ogtt",
+            "target": "cond_t2d",
+            "relation": "HAS_THRESHOLD",
+            "source_ids": ["LC-STAGES-007"],
+            "description": "OGTT 2 giờ: tiền tiểu đường 7.8-11.0 mmol/L; tiểu đường type 2 >= 11.1 mmol/L.",
+        },
+        {
+            "source": "cond_t2d",
+            "target": "bio_random_glucose",
+            "relation": "MEASURED_BY",
+            "source_ids": ["NIDDK-DIAG-003", "LC-STAGES-007"],
+            "description": "Đường huyết bất kỳ >= 11.1 mmol/L kèm triệu chứng điển hình hỗ trợ chẩn đoán tiểu đường.",
+        },
+        # --- MAY_PRESENT_WITH ---
+        {
+            "source": "cond_t2d",
+            "target": "sym_thirst_urination",
+            "relation": "MAY_PRESENT_WITH",
+            "source_ids": ["NIDDK-T2D-004", "WHO-DIAB-005", "LC-STAGES-007"],
+            "description": "Tiểu đường có thể biểu hiện khát nước nhiều và đi tiểu nhiều (tiểu đường type 2 thường diễn tiến âm thầm).",
+        },
+        {
+            "source": "cond_prediabetes",
+            "target": "sym_fatigue",
+            "relation": "MAY_PRESENT_WITH",
+            "source_ids": ["LC-HBA1C-006", "LC-STAGES-007"],
+            "description": "Tiền tiểu đường thường ít triệu chứng nhưng đôi khi gây mệt mỏi không rõ nguyên nhân, khát nước hoặc tiểu nhiều.",
+        },
+        {
+            "source": "cond_t2d",
+            "target": "sym_blurred_vision",
+            "relation": "MAY_PRESENT_WITH",
+            "source_ids": ["NIDDK-T2D-004", "WHO-DIAB-005", "LC-STAGES-007"],
+            "description": "Nhìn mờ là triệu chứng có thể gặp ở người tăng đường huyết kéo dài.",
+        },
+        {
+            "source": "cond_t1d",
+            "target": "sym_weight_loss",
+            "relation": "MAY_PRESENT_WITH",
+            "source_ids": ["NIDDK-DIAG-003", "WHO-DIAB-005", "LC-STAGES-007"],
+            "description": "Sụt cân không rõ nguyên nhân, khát nhiều và tiểu nhiều có thể khởi phát đột ngột ở tiểu đường type 1.",
+        },
+        {
+            "source": "cond_t2d",
+            "target": "sym_slow_healing_numbness",
+            "relation": "MAY_PRESENT_WITH",
+            "source_ids": ["NIDDK-T2D-004", "LC-STAGES-007"],
+            "description": "Vết thương lâu lành và tê bì tay chân có thể xuất hiện khi tiểu đường type 2 tiến triển.",
+        },
+        # --- CAN_LEAD_TO (Complications) ---
+        {
+            "source": "cond_t2d",
+            "target": "comp_cardiovascular",
+            "relation": "CAN_LEAD_TO",
+            "source_ids": ["CDC-T2D-001", "NIDDK-T2D-004", "WHO-DIAB-005", "LC-HBA1C-006", "LC-STAGES-007"],
+            "description": "Đường huyết cao kéo dài gây tổn thương mạch máu, dẫn đến bệnh tim mạch và đột quỵ.",
+        },
+        {
+            "source": "cond_t2d",
+            "target": "comp_kidney",
+            "relation": "CAN_LEAD_TO",
+            "source_ids": ["CDC-T2D-001", "NIDDK-T2D-004", "WHO-DIAB-005", "LC-HBA1C-006", "LC-STAGES-007"],
+            "description": "Tiểu đường không kiểm soát có thể gây bệnh thận đái tháo đường và suy thận.",
+        },
+        {
+            "source": "cond_t2d",
+            "target": "comp_retinopathy",
+            "relation": "CAN_LEAD_TO",
+            "source_ids": ["CDC-T2D-001", "NIDDK-T2D-004", "WHO-DIAB-005", "LC-HBA1C-006", "LC-STAGES-007"],
+            "description": "Tổn thương mạch máu võng mạc có thể gây giảm thị lực hoặc mù lòa.",
+        },
+        {
+            "source": "cond_t2d",
+            "target": "comp_neuropathy_foot",
+            "relation": "CAN_LEAD_TO",
+            "source_ids": ["NIDDK-T2D-004", "WHO-DIAB-005", "LC-HBA1C-006", "LC-STAGES-007"],
+            "description": "Tiểu đường kéo dài có thể dẫn đến tổn thương thần kinh ngoại biên và loét bàn chân.",
+        },
+        # --- HELPS_REDUCE ---
+        {
+            "source": "life_diet",
+            "target": "cond_prediabetes",
+            "relation": "HELPS_REDUCE",
+            "source_ids": ["CDC-RISK-002", "NIDDK-T2D-004", "LC-HBA1C-006", "LC-STAGES-007"],
+            "description": "Chế độ ăn nhiều chất xơ, tinh bột phức và hạn chế đường giúp cải thiện đường huyết và đẩy lùi tiền tiểu đường.",
+        },
+        {
+            "source": "life_exercise",
+            "target": "cond_t2d",
+            "relation": "HELPS_REDUCE",
+            "source_ids": ["CDC-T2D-001", "CDC-RISK-002", "NIDDK-T2D-004", "WHO-DIAB-005", "LC-HBA1C-006", "LC-STAGES-007"],
+            "description": "Vận động >= 150 phút/tuần giúp tăng độ nhạy insulin, giảm HbA1c và phòng ngừa tiểu đường type 2.",
+        },
+        {
+            "source": "life_weight_control",
+            "target": "cond_t2d",
+            "relation": "HELPS_REDUCE",
+            "source_ids": ["CDC-T2D-001", "CDC-RISK-002", "NIDDK-T2D-004", "LC-HBA1C-006", "LC-STAGES-007"],
+            "description": "Giảm 5%-7% cân nặng ở người thừa cân giúp cải thiện đề kháng insulin và trì hoãn hoặc phòng ngừa type 2.",
+        },
+        {
+            "source": "life_monitoring",
+            "target": "comp_cardiovascular",
+            "relation": "HELPS_REDUCE",
+            "source_ids": ["CDC-T2D-001", "WHO-DIAB-005", "LC-HBA1C-006", "LC-STAGES-007"],
+            "description": "Theo dõi đường huyết, HbA1c và tầm soát biến chứng định kỳ giúp phát hiện sớm và hạn chế biến chứng.",
+        },
+        {
+            "source": "life_stress_sleep",
+            "target": "cond_prediabetes",
+            "relation": "HELPS_REDUCE",
+            "source_ids": ["CDC-T2D-001", "LC-HBA1C-006", "LC-STAGES-007"],
+            "description": "Quản lý stress và ngủ đủ 7-8 tiếng giúp ổn định cortisol và kiểm soát đường huyết tốt hơn.",
+        },
+        {
+            "source": "life_no_smoking_bp",
+            "target": "comp_cardiovascular",
+            "relation": "HELPS_REDUCE",
+            "source_ids": ["NIDDK-T2D-004", "WHO-DIAB-005", "LC-STAGES-007"],
+            "description": "Bỏ thuốc lá và kiểm soát huyết áp, mỡ máu giúp giảm đáng kể biến chứng tim mạch ở người tiểu đường.",
+        },
+    ]
+
+    # --- SUPPORTED_BY edges linking core entities to the 7 SourceDocument nodes ---
+    support_links = [
+        ("cond_t2d", "CDC-T2D-001"),
+        ("rf_overweight_bmi", "CDC-RISK-002"),
+        ("bio_hba1c", "NIDDK-DIAG-003"),
+        ("cond_t2d", "NIDDK-T2D-004"),
+        ("cond_t2d", "WHO-DIAB-005"),
+        ("bio_hba1c", "LC-HBA1C-006"),
+        ("cond_prediabetes", "LC-HBA1C-006"),
+        ("cond_insulin_resistance", "LC-STAGES-007"),
+        ("cond_prediabetes", "LC-STAGES-007"),
+    ]
+    for node_id, src_id in support_links:
+        src = source_map[src_id]
+        edges.append(
+            {
+                "source": node_id,
+                "target": src_id,
+                "relation": "SUPPORTED_BY",
+                "source_ids": [src_id],
+                "description": f"Được hậu thuẫn bởi tài liệu {src_id} ({src['publisher']} - {src['title']}).",
+            }
+        )
+
+    return {
+        "schema_version": "1.0",
+        "sources": sources,
+        "nodes": nodes,
+        "edges": edges,
+    }
+
+
+def write_curated_kg(output_path: Path) -> dict:
+    """Generate the curated Diabetes Knowledge Graph JSON and persist it to `output_path`."""
+    payload = build_curated_kg()
+    target = Path(output_path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    return payload
