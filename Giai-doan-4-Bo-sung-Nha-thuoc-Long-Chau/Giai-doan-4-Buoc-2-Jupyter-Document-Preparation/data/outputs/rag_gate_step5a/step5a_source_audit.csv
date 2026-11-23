@@ -1,0 +1,8 @@
+﻿source_id,indexed_chunks,reviewed_hits,grade2_hits,citation_yes_hits,citation_no_hits,rights_yes_hits,rights_no_hits,rights_unknown_hits
+CDC-RISK-002,3,0,0,0,0,0,0,0
+CDC-T2D-001,4,1,1,1,0,1,0,0
+LC-HBA1C-006,11,6,3,4,2,0,6,0
+LC-STAGES-007,13,21,7,8,13,0,21,0
+NIDDK-DIAG-003,19,4,2,4,0,4,0,0
+NIDDK-T2D-004,11,8,5,7,1,8,0,0
+WHO-DIAB-005,5,2,1,1,1,0,2,0

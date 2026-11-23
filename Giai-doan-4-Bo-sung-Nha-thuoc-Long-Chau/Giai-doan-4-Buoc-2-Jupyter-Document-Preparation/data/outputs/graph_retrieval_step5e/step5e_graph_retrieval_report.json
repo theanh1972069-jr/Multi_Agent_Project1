@@ -1,0 +1,203 @@
+{
+  "experiment": "EXP-GRAPH-RETRIEVAL-STEP5E-001",
+  "stage": "phase4_step5e_chroma_neo4j_provenance_retrieval",
+  "run_at_utc": "2026-11-03T08:30:53.701862+00:00",
+  "status": "technical_join_pass",
+  "collection": "diabetes_kb_step3_e5small_v1",
+  "source_snapshot_sha256": "cc064ec7187192c999418051cb2125a0510412843f8d0908e3d6842e4a71c7cd",
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "chroma_records": 66,
+  "neo4j_counts": {
+    "source_documents": 7,
+    "topics": 6,
+    "topic_links": 7,
+    "chunk_refs": 66,
+    "chunk_links": 66,
+    "orphans": 0,
+    "approved_claims": 0
+  },
+  "neo4j_chunks_by_source": {
+    "CDC-RISK-002": 3,
+    "CDC-T2D-001": 4,
+    "LC-HBA1C-006": 11,
+    "LC-STAGES-007": 13,
+    "NIDDK-DIAG-003": 19,
+    "NIDDK-T2D-004": 11,
+    "WHO-DIAB-005": 5
+  },
+  "queries": [
+    {
+      "question_id": "Q01",
+      "question": "Những yếu tố nào liên quan đến tiểu đường type 2?",
+      "hits": [
+        {
+          "rank": 1,
+          "chunk_id": "LC-STAGES-007__v1__a35d137234__0008",
+          "source_id": "LC-STAGES-007",
+          "cosine_distance": 0.10504066944122314,
+          "section": "Cách chẩn đoán các giai đoạn tiểu đường",
+          "source_title": "Các giai đoạn bệnh tiểu đường",
+          "url": "https://nhathuoclongchau.com.vn/bai-viet/cac-giai-doan-cua-benh-tieu-duong-20966.html",
+          "topics": [
+            "Disease stages"
+          ],
+          "graph_provenance_match": true,
+          "rights_status": "needs_independent_check",
+          "medical_review_status": "pending",
+          "eligible_for_medical_answer": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "LC-STAGES-007__v1__a35d137234__0005",
+          "source_id": "LC-STAGES-007",
+          "cosine_distance": 0.10753500461578369,
+          "section": "Giai đoạn 3: Bệnh tiểu đường tuýp 2",
+          "source_title": "Các giai đoạn bệnh tiểu đường",
+          "url": "https://nhathuoclongchau.com.vn/bai-viet/cac-giai-doan-cua-benh-tieu-duong-20966.html",
+          "topics": [
+            "Disease stages"
+          ],
+          "graph_provenance_match": true,
+          "rights_status": "needs_independent_check",
+          "medical_review_status": "pending",
+          "eligible_for_medical_answer": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "LC-STAGES-007__v1__a35d137234__0010",
+          "source_id": "LC-STAGES-007",
+          "cosine_distance": 0.11375516653060913,
+          "section": "Cách phòng ngừa bệnh tiểu đường tiến triển",
+          "source_title": "Các giai đoạn bệnh tiểu đường",
+          "url": "https://nhathuoclongchau.com.vn/bai-viet/cac-giai-doan-cua-benh-tieu-duong-20966.html",
+          "topics": [
+            "Disease stages"
+          ],
+          "graph_provenance_match": true,
+          "rights_status": "needs_independent_check",
+          "medical_review_status": "pending",
+          "eligible_for_medical_answer": false
+        }
+      ]
+    },
+    {
+      "question_id": "Q02",
+      "question": "HbA1c dùng để đánh giá tình trạng đường huyết như thế nào?",
+      "hits": [
+        {
+          "rank": 1,
+          "chunk_id": "LC-HBA1C-006__v1__a2458c0a11__0002",
+          "source_id": "LC-HBA1C-006",
+          "cosine_distance": 0.07518106698989868,
+          "section": "HbA1c bao nhiêu là tiền tiểu đường?",
+          "source_title": "HbA1c và tiền tiểu đường",
+          "url": "https://nhathuoclongchau.com.vn/bai-viet/hb-a1c-bao-nhieu-la-tien-tieu-duong-nhan-biet-va-cai-thien.html",
+          "topics": [
+            "HbA1c"
+          ],
+          "graph_provenance_match": true,
+          "rights_status": "needs_independent_check",
+          "medical_review_status": "pending",
+          "eligible_for_medical_answer": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "LC-STAGES-007__v1__a35d137234__0008",
+          "source_id": "LC-STAGES-007",
+          "cosine_distance": 0.0901416540145874,
+          "section": "Cách chẩn đoán các giai đoạn tiểu đường",
+          "source_title": "Các giai đoạn bệnh tiểu đường",
+          "url": "https://nhathuoclongchau.com.vn/bai-viet/cac-giai-doan-cua-benh-tieu-duong-20966.html",
+          "topics": [
+            "Disease stages"
+          ],
+          "graph_provenance_match": true,
+          "rights_status": "needs_independent_check",
+          "medical_review_status": "pending",
+          "eligible_for_medical_answer": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "LC-HBA1C-006__v1__a2458c0a11__0001",
+          "source_id": "LC-HBA1C-006",
+          "cosine_distance": 0.09156453609466553,
+          "section": "Mở đầu",
+          "source_title": "HbA1c và tiền tiểu đường",
+          "url": "https://nhathuoclongchau.com.vn/bai-viet/hb-a1c-bao-nhieu-la-tien-tieu-duong-nhan-biet-va-cai-thien.html",
+          "topics": [
+            "HbA1c"
+          ],
+          "graph_provenance_match": true,
+          "rights_status": "needs_independent_check",
+          "medical_review_status": "pending",
+          "eligible_for_medical_answer": false
+        }
+      ]
+    },
+    {
+      "question_id": "Q03",
+      "question": "What are the common risk factors for type 2 diabetes?",
+      "hits": [
+        {
+          "rank": 1,
+          "chunk_id": "NIDDK-T2D-004__v1__9de2376433__0004",
+          "source_id": "NIDDK-T2D-004",
+          "cosine_distance": 0.1104310154914856,
+          "section": "What causes type 2 diabetes?",
+          "source_title": "Type 2 Diabetes",
+          "url": "https://www.niddk.nih.gov/health-information/diabetes/overview/what-is-diabetes/type-2-diabetes",
+          "topics": [
+            "Type 2 diabetes"
+          ],
+          "graph_provenance_match": true,
+          "rights_status": "needs_independent_check",
+          "medical_review_status": "pending",
+          "eligible_for_medical_answer": false
+        },
+        {
+          "rank": 2,
+          "chunk_id": "NIDDK-DIAG-003__v1__f6849feb36__0004",
+          "source_id": "NIDDK-DIAG-003",
+          "cosine_distance": 0.11043578386306763,
+          "section": "Type 2 diabetes testing",
+          "source_title": "Diabetes Tests & Diagnosis",
+          "url": "https://www.niddk.nih.gov/health-information/diabetes/overview/tests-diagnosis",
+          "topics": [
+            "Diagnosis and testing"
+          ],
+          "graph_provenance_match": true,
+          "rights_status": "needs_independent_check",
+          "medical_review_status": "pending",
+          "eligible_for_medical_answer": false
+        },
+        {
+          "rank": 3,
+          "chunk_id": "WHO-DIAB-005__v1__7e8937b88b__0004",
+          "source_id": "WHO-DIAB-005",
+          "cosine_distance": 0.11584293842315674,
+          "section": "Prevention and treatment",
+          "source_title": "Diabetes",
+          "url": "https://www.who.int/health-topics/diabetes",
+          "topics": [
+            "Diabetes"
+          ],
+          "graph_provenance_match": true,
+          "rights_status": "needs_independent_check",
+          "medical_review_status": "pending",
+          "eligible_for_medical_answer": false
+        }
+      ]
+    }
+  ],
+  "top_k": 3,
+  "joined_hits": 9,
+  "provenance_matches": 9,
+  "no_medical_claims_approved": true,
+  "evidence_gate_ready_for_llm": false,
+  "independent_rights_or_clinical_review": false,
+  "llm_called": false,
+  "neo4j_modified": false,
+  "chroma_modified": false,
+  "model_retrained": false,
+  "notes": "Metadata joins only. Topics come from document titles. Not medical claim verification or GraphRAG answer generation."
+}

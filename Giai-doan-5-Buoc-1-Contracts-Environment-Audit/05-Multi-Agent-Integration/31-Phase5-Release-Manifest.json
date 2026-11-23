@@ -1,0 +1,65 @@
+{
+  "release": "PHASE5-RESEARCH-SANDBOX-CLOSED-WITH-LIMITATIONS",
+  "generated_on": "2026-11-04",
+  "source_of_truth": "User-executed JSON reports; offline final audit",
+  "step6_status": "phase5_research_sandbox_ready_to_close_with_limitations",
+  "checks": {
+    "stored_reports_passed": 5,
+    "stored_reports_total": 5,
+    "manual_atlas_review": {
+      "status": "pass",
+      "completed": 3,
+      "total": 3,
+      "issues": []
+    },
+    "step5_optional_live_ollama": "not_supplied"
+  },
+  "medical_gate": "BLOCKED_RESEARCH_ONLY",
+  "production_authorized": false,
+  "clinical_validated": false,
+  "source_rights_verified_independently": false,
+  "source_reports": [
+    {
+      "name": "step2_prediction_integration_report.json",
+      "sha256": "b470686e1354c3ad184d9296ea5b0b8c4c663f3ce690f9c942bbf55ce189063d"
+    },
+    {
+      "name": "step3_knowledge_integration_report.json",
+      "sha256": "8f3fb68318951fefc4474b80c7f2c4bdabeddd41612eac4358ffb8a8e411a1f7"
+    },
+    {
+      "name": "step4_consultation_report.json",
+      "sha256": "3bda43f95cc53065670042a82a8405b527d438a307a981270804a424411c927d"
+    },
+    {
+      "name": "step5_orchestrator_report.json",
+      "sha256": "602cc1f2dd024b089c4188be50b419d913bdf79b7f342f12f1c571a5cf81e425"
+    },
+    {
+      "name": "step6_http_smoke_report.json",
+      "sha256": "159c310a22268d913cc60c08bfe97ac08847f9077b77872b908d2a8bc6d2ccde"
+    },
+    {
+      "name": "step6_phase5_e2e_report.json",
+      "sha256": "6a9ecd7abbbb394a80dbd402ee5707f7f5d33704326aa0465868b3f4f7e7129b"
+    }
+  ],
+  "documents": [
+    {
+      "path": "05-Multi-Agent-Integration/30-Phase5-Final-Report.md",
+      "sha256": "077017c4c3df8832b1850f09f3dd0f79d23d90f30f2317e1a7c65fba653dd092"
+    },
+    {
+      "path": "05-Multi-Agent-Integration/32-Phase5-to-Phase6-Handover.md",
+      "sha256": "eaa26446bcc57647bc3babc4517e16af0cacd05798f7a5ad6c0a7a6a394bd38d"
+    },
+    {
+      "path": "06-Application-Integration/01-Phase6-Web-Mobile-Roadmap.md",
+      "sha256": "5235aab17e5f27ecea956ddd5a2345d8beb1489659c154ba1c7970e2af700bfc"
+    },
+    {
+      "path": "06-Application-Integration/02-Step1-Client-API-Contract-Audit.md",
+      "sha256": "4364098e8e15f3543bbcbce8798251c4f41afc1ae4d2b88a8e252fb4f93c7937"
+    }
+  ]
+}

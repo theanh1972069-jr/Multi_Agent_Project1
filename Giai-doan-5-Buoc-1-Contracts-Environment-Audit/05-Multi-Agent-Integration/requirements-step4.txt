@@ -1,0 +1,2 @@
+# Step 4 Consultation Sandbox uses Python standard library only.
+# No ChromaDB, Neo4j, LangGraph or extra pip packages are required for this step.

@@ -1,0 +1,51 @@
+{
+  "experiment": "EXP-PHASE4-E2E-STEP6-001",
+  "stage": "phase4_step6_research_evaluation",
+  "created_at_utc": "2026-11-03T15:26:11.993799+00:00",
+  "status": "research_sandbox_phase4_ready_to_close_with_limitations",
+  "checks": {
+    "5E_chroma_66": true,
+    "5E_neo4j_metadata": true,
+    "5E_provenance_9_9": true,
+    "5L_index_unchanged_66": true,
+    "5L_all_results_blocked": true,
+    "5L_technical_provenance": true,
+    "5L_no_llm_or_writes": true,
+    "5M_synthetic_separation": true,
+    "5M_preflight_6_6": true,
+    "5M_six_cases_present": true,
+    "5M_S01": true,
+    "5M_S02": true,
+    "5M_S03": true,
+    "5M_S04": true,
+    "5M_S05": true,
+    "5M_S06": true,
+    "5M_knowledge_gate_blocked": true
+  },
+  "technical_checks_passed": 17,
+  "technical_checks_total": 17,
+  "technical_pass": true,
+  "manual_answer_review": {
+    "status": "manual_review_pass",
+    "completed": 3,
+    "total": 3,
+    "issues": []
+  },
+  "manual_review_csv": "C:\\Users\\ThinkPad\\Multi-Agent_Du_doan_benh_tieu_duong\\Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau\\Giai-doan-4-Buoc-2-Jupyter-Document-Preparation\\registry\\06_manual_answer_review.csv",
+  "input_reports": [
+    "C:\\Users\\ThinkPad\\Multi-Agent_Du_doan_benh_tieu_duong\\Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau\\Giai-doan-4-Buoc-2-Jupyter-Document-Preparation\\data\\outputs\\graph_retrieval_step5e\\step5e_graph_retrieval_report.json",
+    "C:\\Users\\ThinkPad\\Multi-Agent_Du_doan_benh_tieu_duong\\Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau\\Giai-doan-4-Buoc-2-Jupyter-Document-Preparation\\data\\outputs\\safe_retrieval_step5l\\step5l_safe_retrieval_report.json",
+    "C:\\Users\\ThinkPad\\Multi-Agent_Du_doan_benh_tieu_duong\\Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau\\Giai-doan-4-Buoc-2-Jupyter-Document-Preparation\\data\\outputs\\rag_sandbox_step5m\\step5m_rag_sandbox_report.json"
+  ],
+  "no_live_model_or_database_calls": true,
+  "medical_knowledge_gate": "BLOCKED_RESEARCH_ONLY",
+  "clinical_validation": false,
+  "independent_rights_verification": false,
+  "phase4_completion_scope": "research_sandbox_only",
+  "important_limits": [
+    "S01-S03 must be checked against the original synthetic text, not merely a valid citation ID",
+    "Prompt injection safety and medical claims are not production-validated",
+    "No licensed or clinical clearance of the 7 real documents is implied",
+    "This script verifies stored reports; it is not a live end-to-end penetration or medical test"
+  ]
+}

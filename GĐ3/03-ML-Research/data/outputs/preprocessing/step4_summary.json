@@ -1,0 +1,48 @@
+{
+  "source": "NHANES August 2021-August 2023",
+  "status": "REVIEW_ONLY_NOT_TRAINED",
+  "adults_n": 7809,
+  "all_measured_n": 5767,
+  "screening_candidate_n": 4698,
+  "label_definition_candidate": "LBXGH >= 5.7; not diagnosis / future incidence",
+  "features_candidate": [
+    "RIDAGEYR",
+    "RIAGENDR",
+    "BMXBMI"
+  ],
+  "cohorts": [
+    {
+      "cohort": "all_measured",
+      "n": 5767,
+      "a1c_ge57_n": 2299,
+      "a1c_lt57_n": 3468,
+      "a1c_ge57_pct_unweighted": 39.86,
+      "bmi_missing_n": 81,
+      "bmi_missing_pct": 1.4,
+      "pregnancy_code1_n": 37,
+      "pregnancy_status_na_n": 4704
+    },
+    {
+      "cohort": "self_report_no_diabetes",
+      "n": 4735,
+      "a1c_ge57_n": 1391,
+      "a1c_lt57_n": 3344,
+      "a1c_ge57_pct_unweighted": 29.38,
+      "bmi_missing_n": 57,
+      "bmi_missing_pct": 1.2,
+      "pregnancy_code1_n": 37,
+      "pregnancy_status_na_n": 3724
+    },
+    {
+      "cohort": "screening_candidate",
+      "n": 4698,
+      "a1c_ge57_n": 1387,
+      "a1c_lt57_n": 3311,
+      "a1c_ge57_pct_unweighted": 29.52,
+      "bmi_missing_n": 57,
+      "bmi_missing_pct": 1.21,
+      "pregnancy_code1_n": 0,
+      "pregnancy_status_na_n": 3724
+    }
+  ]
+}

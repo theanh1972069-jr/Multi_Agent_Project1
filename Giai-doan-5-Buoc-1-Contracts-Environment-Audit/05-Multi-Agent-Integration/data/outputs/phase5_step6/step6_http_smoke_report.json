@@ -1,0 +1,25 @@
+{
+  "experiment": "EXP-PHASE5-STEP6-HTTP-001",
+  "timestamp_utc": "2026-11-03T17:59:55.361375+00:00",
+  "mode": "mock",
+  "status": "api_mock_smoke_pass",
+  "passed": 8,
+  "total": 8,
+  "checks": {
+    "health_live_mock": true,
+    "health_ready_not_backend_probe": true,
+    "prediction_mock_200": true,
+    "knowledge_blocked_200": true,
+    "atlas_mock_200": true,
+    "atlas_abstain_200": true,
+    "client_gate_override_rejected_422": true,
+    "unknown_medical_query_rejected_422": true
+  },
+  "all_requests_localhost": true,
+  "medical_knowledge_gate": "BLOCKED_RESEARCH_ONLY",
+  "clinical_answers_generated": false,
+  "llm_called": false,
+  "db_writes": false,
+  "ml_training": false,
+  "note": "Local-only API mock smoke. No backend readiness, authentication, load, or security pen-test."
+}

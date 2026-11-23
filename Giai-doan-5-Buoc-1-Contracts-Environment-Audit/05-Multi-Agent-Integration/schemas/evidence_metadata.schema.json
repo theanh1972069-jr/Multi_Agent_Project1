@@ -1,0 +1,51 @@
+{
+  "additionalProperties": false,
+  "description": "Identifiers ONLY. Retrieved unapproved medical content must not enter state.",
+  "properties": {
+    "chunk_id": {
+      "maxLength": 180,
+      "minLength": 1,
+      "title": "Chunk Id",
+      "type": "string"
+    },
+    "source_id": {
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Source Id",
+      "type": "string"
+    },
+    "source_url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Url"
+    },
+    "provenance_match": {
+      "title": "Provenance Match",
+      "type": "boolean"
+    },
+    "review_status": {
+      "title": "Review Status",
+      "type": "string"
+    },
+    "allowed_to_answer": {
+      "default": false,
+      "title": "Allowed To Answer",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "chunk_id",
+    "source_id",
+    "provenance_match",
+    "review_status"
+  ],
+  "title": "EvidenceMetadata",
+  "type": "object"
+}

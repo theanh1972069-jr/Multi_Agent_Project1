@@ -1,0 +1,37 @@
+{
+  "plan_id": "NHANES-HbA1c-6B-v0.1",
+  "phase": "phase3_step6b",
+  "task": "research-only classification of observed HbA1c >= 5.7% (not future type 2 risk)",
+  "selected_model": "LogisticRegression",
+  "model_artifact": "models/baseline/nhanes_hba1c_baseline_step5.joblib",
+  "features": [
+    "RIDAGEYR",
+    "RIAGENDR",
+    "BMXBMI"
+  ],
+  "target": "a1c_ge_57_candidate",
+  "threshold": 0.225,
+  "threshold_rule": "Provisional exploratory rule after seeing Validation: highest threshold in tested grid (0.100–0.600 step 0.025) with Validation recall >= 0.80; 80% is not a clinical target; do not retune based on Test.",
+  "threshold_precommitted_before_test": true,
+  "threshold_source": "validation only; supplied 06a_validation_thresholds.csv",
+  "validation_reference": {
+    "n": 705,
+    "positive_n": 208,
+    "threshold": 0.225,
+    "tp": 173,
+    "fn": 35,
+    "fp": 249,
+    "tn": 248,
+    "recall": 0.8317307692307693,
+    "precision": 0.4099526066350711,
+    "specificity": 0.4989939637826961,
+    "f2": 0.689792663476874,
+    "pred_positive_pct": 59.8581560283688
+  },
+  "test_holdout_expected_n": 705,
+  "test_use_policy": "Single evaluation at locked threshold; if unsatisfactory, document limitation and do not tune/test repeatedly.",
+  "clinical_validation": "NOT DONE",
+  "external_validation": "NOT DONE",
+  "survey_weighted": "NO",
+  "note": "This file is a study protocol, not a trained model or observed test result."
+}

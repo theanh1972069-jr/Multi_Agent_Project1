@@ -1,0 +1,4 @@
+# Bước 1: test contract. Does NOT install model training/database dependencies.
+pydantic>=2.10,<3
+# Optional for: python -m phase5.step1_graph_skeleton
+langgraph>=1.0,<2

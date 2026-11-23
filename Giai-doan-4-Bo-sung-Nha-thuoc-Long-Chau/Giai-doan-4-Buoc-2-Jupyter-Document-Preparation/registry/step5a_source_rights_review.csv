@@ -1,0 +1,8 @@
+﻿source_id,rights_review_status,content_origin,evidence_url_or_permission,reviewer,reviewed_at_utc,medical_content_review_status,notes
+CDC-T2D-001,pending,,,,,pending,Verification required; do not assume registry approval implies legal reuse
+CDC-RISK-002,pending,,,,,pending,Verification required; do not assume registry approval implies legal reuse
+NIDDK-DIAG-003,pending,,,,,pending,Verification required; do not assume registry approval implies legal reuse
+NIDDK-T2D-004,pending,,,,,pending,Verification required; do not assume registry approval implies legal reuse
+WHO-DIAB-005,pending,,,,,pending,Verification required; do not assume registry approval implies legal reuse
+LC-HBA1C-006,pending,,,,,pending,Verification required; do not assume registry approval implies legal reuse
+LC-STAGES-007,pending,,,,,pending,Verification required; do not assume registry approval implies legal reuse

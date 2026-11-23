@@ -1,0 +1,109 @@
+{
+  "bundle": "Phase5-Step1-Results-Step2-Prediction-Integration",
+  "user_audit_based_on": "terminal-output-only; step1 JSON not uploaded this turn",
+  "local_step2_unit_tests": "16/16 passed",
+  "real_langgraph_invocation": "not_run_in_authoring_environment",
+  "live_api": "not_called; user runs locally",
+  "files": {
+    "00-Phase4-to-Phase5-Handover.json": {
+      "sha256": "48e83f4755875467bf76a112399a33a159fad32cd8c5119df248f017c82f318f",
+      "size_bytes": 1241
+    },
+    "01-Phase5-Integration-Roadmap.md": {
+      "sha256": "85815f52c50615885af1afc2e1a929958f9f2e421631910455f0e4db2b10dd8e",
+      "size_bytes": 6477
+    },
+    "02-Agent-Contracts-Draft.md": {
+      "sha256": "136681bb1e32d0486c09bc01162d575dc8906fda67e5ff04f9d401cd6db1f1b6",
+      "size_bytes": 3314
+    },
+    "03-Step1-Integration-Contracts-and-Environment-Audit.md": {
+      "sha256": "b73acb084ad080c5ed9658467d6e5fcfb3d85e056479cad1a06c320063708cda",
+      "size_bytes": 10497
+    },
+    "04-Step1-Test-Matrix.md": {
+      "sha256": "1ff313cb55c77d37c8cae0ae9d3d34ea9195c5487b514ced9032d27331412159",
+      "size_bytes": 2410
+    },
+    "05-Step1-Local-Validation-Record.md": {
+      "sha256": "1f525455188088b005fca466eec0fb342ed1fc5d141c10bbc32e0134ad636fce",
+      "size_bytes": 1267
+    },
+    "06-Step1-Environment-Audit-User-Results.md": {
+      "sha256": "ca2487df3099f57db663000e16b65fc1ce684ae9263d728adbb3a64b145a1446",
+      "size_bytes": 2019
+    },
+    "07-Step2-Data-Analysis-Prediction-Integration-Guide.md": {
+      "sha256": "4b2ad50bb24a6f63d1ca5ff72adb97d25c2a509914dc7b0a093420a621bb4c29",
+      "size_bytes": 8552
+    },
+    "08-Step2-Test-Matrix.md": {
+      "sha256": "e1f4444d24afaf46cb96f7e9fe9780915b3cabb090d9c5f0a99f00dcbedd4d4d",
+      "size_bytes": 1353
+    },
+    "requirements-step1.txt": {
+      "sha256": "4fd7c62c5c741b36fe83d8f95feaf82bf778f102f7d1b58ad282375783f1fa2e",
+      "size_bytes": 173
+    },
+    "requirements-step2.txt": {
+      "sha256": "29b46a3ecd99d60c0b4138994903e72f0ac0fd24aea797102a5cd022a0c600b5",
+      "size_bytes": 131
+    },
+    "config/phase5_step1_config.example.json": {
+      "sha256": "ceaa2770406f7fe955ce58dab52fa7600b9eb3c8096093f91f9cae01010e608e",
+      "size_bytes": 297
+    },
+    "phase5/__init__.py": {
+      "sha256": "c63c8f2287f13310bace62ff8f1e6486a5df8cd7ec8434c130c5e230fb83d09f",
+      "size_bytes": 112
+    },
+    "phase5/contracts.py": {
+      "sha256": "e5ba5efa5e0fc175064a6e8a37315318cc843de0b9f364ca5a2c8b85a3222da4",
+      "size_bytes": 7148
+    },
+    "phase5/step1_self_test.py": {
+      "sha256": "880342e0c11e53c9b79661eee0b822ac5a9967d963e3a61a0516d0e618cdfa5e",
+      "size_bytes": 5194
+    },
+    "phase5/step1_environment_audit.py": {
+      "sha256": "31c6028d0314bf81dade906e58b9ec5879eaecdd5157b03e79c4854d2077ad3a",
+      "size_bytes": 9853
+    },
+    "phase5/step1_graph_skeleton.py": {
+      "sha256": "59f556fb3b254b189618899550f25149bc0ca1a4af79cdc2ec7e7dabde73e340",
+      "size_bytes": 3660
+    },
+    "phase5/step2_prediction_integration.py": {
+      "sha256": "1cca8f03749f855ea32d2eb4cc641be3fe0b5e8f2a6f7941887a444089975569",
+      "size_bytes": 10660
+    },
+    "phase5/step2_self_test.py": {
+      "sha256": "6975f86780376e4708167ef6ac31d1a1d7e7888dd99717a311dff63eda869f61",
+      "size_bytes": 3639
+    },
+    "phase5/step2_run.py": {
+      "sha256": "4c0d28e2bfdd922d84ec5ba95019b60eaade63ca894fd8fcb7b671fbee502fb0",
+      "size_bytes": 4878
+    },
+    "schemas/evidence_metadata.schema.json": {
+      "sha256": "ee3e989714f7975b1f698b4a74e4b6a74ad765b951311929dcbf88546d129151",
+      "size_bytes": 1040
+    },
+    "schemas/research_features.schema.json": {
+      "sha256": "658c20415ce01049639edf27c971d6a0b2ac0682b6e6f57353be561ced5354b9",
+      "size_bytes": 625
+    },
+    "schemas/upstream_prediction.schema.json": {
+      "sha256": "7e5efa5a537dc219ef07f54b5880d74474fcde79c53f2f7757d33603e2b462ff",
+      "size_bytes": 1291
+    },
+    "schemas/workflow_request.schema.json": {
+      "sha256": "9bd09d3cba539f065fa618241fa142ec3c4292956351684dbb941259dd2b1af0",
+      "size_bytes": 1946
+    },
+    "schemas/workflow_response.schema.json": {
+      "sha256": "83b5becffa93f64b084ff47276fc2d2caa7dbd8149292fe5cfe84cfbaf62c89d",
+      "size_bytes": 5036
+    }
+  }
+}

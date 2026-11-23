@@ -1,0 +1,247 @@
+{
+  "experiment": "EXP-RAG-RETRIEVAL-STEP4-001",
+  "stage": "phase4_step4_retrieval_evaluation",
+  "created_at_utc": "2026-11-03T06:32:52.619877+00:00",
+  "status": "human_labels_complete_research_only",
+  "step3_source_snapshot_sha256": "cc064ec7187192c999418051cb2125a0510412843f8d0908e3d6842e4a71c7cd",
+  "collection": "diabetes_kb_step3_e5small_v1",
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "indexed_records_unchanged": 66,
+  "queries_total": 14,
+  "queries_in_scope": 12,
+  "top_k": 3,
+  "metrics_in_scope": {
+    "precision_at_3": 0.8611,
+    "strict_hit_at_3": 0.8333,
+    "mrr_at_3": 0.7778,
+    "mean_grade_at_3": 1.3889
+  },
+  "citation_ok_hits": 25,
+  "citation_checked_hits": 42,
+  "rights_evidence_counts": {
+    "no": 29,
+    "yes": 13
+  },
+  "source_reviews_independent": false,
+  "per_query": [
+    {
+      "query_id": "Q01",
+      "type": "in_scope",
+      "language": "vi",
+      "precision_at_3": 0.6666666666666666,
+      "strict_hit_at_3": 0,
+      "mrr_at_3": 0.0,
+      "mean_grade_at_3": 0.6666666666666666,
+      "graded_hits": [
+        0,
+        1,
+        1
+      ],
+      "top1_source": "LC-STAGES-007"
+    },
+    {
+      "query_id": "Q02",
+      "type": "in_scope",
+      "language": "en",
+      "precision_at_3": 1.0,
+      "strict_hit_at_3": 1,
+      "mrr_at_3": 1.0,
+      "mean_grade_at_3": 1.6666666666666667,
+      "graded_hits": [
+        2,
+        2,
+        1
+      ],
+      "top1_source": "NIDDK-DIAG-003"
+    },
+    {
+      "query_id": "Q03",
+      "type": "in_scope",
+      "language": "vi",
+      "precision_at_3": 0.6666666666666666,
+      "strict_hit_at_3": 1,
+      "mrr_at_3": 1.0,
+      "mean_grade_at_3": 1.0,
+      "graded_hits": [
+        2,
+        1,
+        0
+      ],
+      "top1_source": "LC-HBA1C-006"
+    },
+    {
+      "query_id": "Q04",
+      "type": "in_scope",
+      "language": "vi",
+      "precision_at_3": 1.0,
+      "strict_hit_at_3": 1,
+      "mrr_at_3": 1.0,
+      "mean_grade_at_3": 1.6666666666666667,
+      "graded_hits": [
+        2,
+        2,
+        1
+      ],
+      "top1_source": "LC-HBA1C-006"
+    },
+    {
+      "query_id": "Q05",
+      "type": "in_scope",
+      "language": "en",
+      "precision_at_3": 1.0,
+      "strict_hit_at_3": 0,
+      "mrr_at_3": 0.0,
+      "mean_grade_at_3": 1.0,
+      "graded_hits": [
+        1,
+        1,
+        1
+      ],
+      "top1_source": "NIDDK-DIAG-003"
+    },
+    {
+      "query_id": "Q06",
+      "type": "in_scope",
+      "language": "vi",
+      "precision_at_3": 0.6666666666666666,
+      "strict_hit_at_3": 1,
+      "mrr_at_3": 0.3333333333333333,
+      "mean_grade_at_3": 1.0,
+      "graded_hits": [
+        0,
+        1,
+        2
+      ],
+      "top1_source": "LC-STAGES-007"
+    },
+    {
+      "query_id": "Q07",
+      "type": "in_scope",
+      "language": "vi",
+      "precision_at_3": 1.0,
+      "strict_hit_at_3": 1,
+      "mrr_at_3": 1.0,
+      "mean_grade_at_3": 2.0,
+      "graded_hits": [
+        2,
+        2,
+        2
+      ],
+      "top1_source": "LC-STAGES-007"
+    },
+    {
+      "query_id": "Q08",
+      "type": "in_scope",
+      "language": "en",
+      "precision_at_3": 0.6666666666666666,
+      "strict_hit_at_3": 1,
+      "mrr_at_3": 1.0,
+      "mean_grade_at_3": 1.3333333333333333,
+      "graded_hits": [
+        2,
+        0,
+        2
+      ],
+      "top1_source": "NIDDK-T2D-004"
+    },
+    {
+      "query_id": "Q09",
+      "type": "in_scope",
+      "language": "vi",
+      "precision_at_3": 1.0,
+      "strict_hit_at_3": 1,
+      "mrr_at_3": 1.0,
+      "mean_grade_at_3": 1.3333333333333333,
+      "graded_hits": [
+        2,
+        1,
+        1
+      ],
+      "top1_source": "LC-STAGES-007"
+    },
+    {
+      "query_id": "Q10",
+      "type": "in_scope",
+      "language": "vi",
+      "precision_at_3": 0.6666666666666666,
+      "strict_hit_at_3": 1,
+      "mrr_at_3": 1.0,
+      "mean_grade_at_3": 1.3333333333333333,
+      "graded_hits": [
+        2,
+        0,
+        2
+      ],
+      "top1_source": "LC-STAGES-007"
+    },
+    {
+      "query_id": "Q11",
+      "type": "in_scope",
+      "language": "en",
+      "precision_at_3": 1.0,
+      "strict_hit_at_3": 1,
+      "mrr_at_3": 1.0,
+      "mean_grade_at_3": 2.0,
+      "graded_hits": [
+        2,
+        2,
+        2
+      ],
+      "top1_source": "NIDDK-T2D-004"
+    },
+    {
+      "query_id": "Q12",
+      "type": "in_scope",
+      "language": "en",
+      "precision_at_3": 1.0,
+      "strict_hit_at_3": 1,
+      "mrr_at_3": 1.0,
+      "mean_grade_at_3": 1.6666666666666667,
+      "graded_hits": [
+        2,
+        2,
+        1
+      ],
+      "top1_source": "NIDDK-T2D-004"
+    },
+    {
+      "query_id": "Q13",
+      "type": "out_of_scope",
+      "language": "vi",
+      "precision_at_3": 0.0,
+      "strict_hit_at_3": 0,
+      "mrr_at_3": 0.0,
+      "mean_grade_at_3": 0.0,
+      "graded_hits": [
+        0,
+        0,
+        0
+      ],
+      "top1_source": "LC-STAGES-007"
+    },
+    {
+      "query_id": "Q14",
+      "type": "safety_probe",
+      "language": "vi",
+      "precision_at_3": 0.0,
+      "strict_hit_at_3": 0,
+      "mrr_at_3": 0.0,
+      "mean_grade_at_3": 0.0,
+      "graded_hits": [
+        0,
+        0,
+        0
+      ],
+      "top1_source": "LC-STAGES-007"
+    }
+  ],
+  "limitations": [
+    "Human labels are local reviewer judgments, not clinical validation",
+    "Recall@3 not computed: no exhaustive relevance labels for 66 chunks",
+    "Source permissions require independent verification before production",
+    "Out-of-scope/safety queries do not establish a calibrated abstention rule"
+  ],
+  "llm_called": false,
+  "embedding_index_modified": false,
+  "model_retrained": false
+}

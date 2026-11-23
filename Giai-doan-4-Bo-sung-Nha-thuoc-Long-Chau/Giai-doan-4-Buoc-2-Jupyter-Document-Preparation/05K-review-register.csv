@@ -1,0 +1,13 @@
+﻿item_type,item_id,source_id,claim_id,relation_id,reviewer_role,reviewer_name,evidence_uri,license_scope,decision,reviewed_at_utc,notes
+source_rights,CDC-T2D-001,CDC-T2D-001,,,rights_or_legal_reviewer,,,,pending,,Kiểm tra quyền sử dụng nội dung cụ thể; KHÔNG tự xác nhận
+source_rights,CDC-RISK-002,CDC-RISK-002,,,rights_or_legal_reviewer,,,,pending,,Kiểm tra quyền sử dụng nội dung cụ thể; KHÔNG tự xác nhận
+source_rights,NIDDK-DIAG-003,NIDDK-DIAG-003,,,rights_or_legal_reviewer,,,,pending,,Kiểm tra quyền sử dụng nội dung cụ thể; KHÔNG tự xác nhận
+source_rights,NIDDK-T2D-004,NIDDK-T2D-004,,,rights_or_legal_reviewer,,,,pending,,Kiểm tra quyền sử dụng nội dung cụ thể; KHÔNG tự xác nhận
+source_rights,WHO-DIAB-005,WHO-DIAB-005,,,rights_or_legal_reviewer,,,,pending,,Kiểm tra quyền sử dụng nội dung cụ thể; KHÔNG tự xác nhận
+source_rights,LC-HBA1C-006,LC-HBA1C-006,,,rights_or_legal_reviewer,,,,pending,,Kiểm tra quyền sử dụng nội dung cụ thể; KHÔNG tự xác nhận
+source_rights,LC-STAGES-007,LC-STAGES-007,,,rights_or_legal_reviewer,,,,pending,,Kiểm tra quyền sử dụng nội dung cụ thể; KHÔNG tự xác nhận
+medical_claim,RESEARCH-CLAIM-001,NIDDK-T2D-004,RESEARCH-CLAIM-001,,qualified_medical_reviewer,,,,pending,,"Kiểm tra ngữ cảnh, giới hạn và cách diễn giải; chưa duyệt"
+medical_relation,REL-CAND-001,NIDDK-T2D-004,RESEARCH-CLAIM-001,REL-CAND-001,qualified_medical_reviewer,,,,pending,,Kiểm tra loại quan hệ và bằng chứng; chưa duyệt
+medical_relation,REL-CAND-002,NIDDK-T2D-004,RESEARCH-CLAIM-001,REL-CAND-002,qualified_medical_reviewer,,,,pending,,Kiểm tra loại quan hệ và bằng chứng; chưa duyệt
+medical_relation,REL-CAND-003,NIDDK-T2D-004,RESEARCH-CLAIM-001,REL-CAND-003,qualified_medical_reviewer,,,,pending,,Kiểm tra loại quan hệ và bằng chứng; chưa duyệt
+medical_relation,REL-CAND-004,NIDDK-T2D-004,RESEARCH-CLAIM-001,REL-CAND-004,qualified_medical_reviewer,,,,pending,,Kiểm tra loại quan hệ và bằng chứng; chưa duyệt

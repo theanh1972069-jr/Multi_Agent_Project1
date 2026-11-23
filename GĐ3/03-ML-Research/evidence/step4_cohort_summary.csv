@@ -1,0 +1,4 @@
+cohort,n,a1c_ge57_n,a1c_lt57_n,a1c_ge57_pct_unweighted,bmi_missing_n,bmi_missing_pct,pregnancy_code1_n,pregnancy_status_na_n
+all_measured,5767,2299,3468,39.86,81,1.4,37,4704
+self_report_no_diabetes,4735,1391,3344,29.38,57,1.2,37,3724
+screening_candidate,4698,1387,3311,29.52,57,1.21,0,3724

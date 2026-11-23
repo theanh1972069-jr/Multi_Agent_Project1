@@ -1,0 +1,93 @@
+{
+  "$defs": {
+    "ResearchFeatures": {
+      "additionalProperties": false,
+      "description": "Locked NHANES input schema (strict, without real patient data in tests).",
+      "properties": {
+        "RIDAGEYR": {
+          "maximum": 80,
+          "minimum": 20,
+          "title": "Ridageyr",
+          "type": "integer"
+        },
+        "RIAGENDR": {
+          "enum": [
+            1,
+            2
+          ],
+          "title": "Riagendr",
+          "type": "integer"
+        },
+        "BMXBMI": {
+          "maximum": 74.8,
+          "minimum": 11.1,
+          "title": "Bmxbmi",
+          "type": "number"
+        }
+      },
+      "required": [
+        "RIDAGEYR",
+        "RIAGENDR",
+        "BMXBMI"
+      ],
+      "title": "ResearchFeatures",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Only the caller may set these fields. Gate and result are server-owned.",
+  "properties": {
+    "request_id": {
+      "maxLength": 64,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "operation": {
+      "enum": [
+        "research_prediction",
+        "synthetic_rag_demo"
+      ],
+      "title": "Operation",
+      "type": "string"
+    },
+    "synthetic_test_only": {
+      "const": true,
+      "default": true,
+      "title": "Synthetic Test Only",
+      "type": "boolean"
+    },
+    "features": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ResearchFeatures"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "question": {
+      "anyOf": [
+        {
+          "maxLength": 500,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Question"
+    }
+  },
+  "required": [
+    "request_id",
+    "operation"
+  ],
+  "title": "WorkflowRequest",
+  "type": "object"
+}

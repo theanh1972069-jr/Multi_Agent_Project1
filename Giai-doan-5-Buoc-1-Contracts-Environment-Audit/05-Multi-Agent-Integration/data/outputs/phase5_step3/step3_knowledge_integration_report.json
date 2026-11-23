@@ -1,0 +1,133 @@
+{
+  "experiment": "EXP-PHASE5-STEP3-001",
+  "timestamp_utc": "2026-11-03T17:18:46.715975+00:00",
+  "mode": "live",
+  "status": "local_chroma_neo4j_checked",
+  "neo4j_audit": {
+    "sources": 7,
+    "chunks": 66,
+    "chunk_links": 66,
+    "orphans": 0,
+    "candidates": 4,
+    "technical_reviews": 4,
+    "approved_relations": 0,
+    "approved_claims": 0
+  },
+  "queries": [
+    {
+      "query_id": "Q01",
+      "status": "blocked_research_only",
+      "knowledge_gate": "BLOCKED_RESEARCH_ONLY",
+      "llm_called": false,
+      "hits": [
+        {
+          "chunk_id": "LC-STAGES-007__v1__a35d137234__0008",
+          "source_id": "LC-STAGES-007",
+          "source_url": "https://nhathuoclongchau.com.vn/bai-viet/cac-giai-doan-cua-benh-tieu-duong-20966.html",
+          "provenance_match": true,
+          "review_status": "unverified_research_only",
+          "allowed_to_answer": false
+        },
+        {
+          "chunk_id": "LC-STAGES-007__v1__a35d137234__0005",
+          "source_id": "LC-STAGES-007",
+          "source_url": "https://nhathuoclongchau.com.vn/bai-viet/cac-giai-doan-cua-benh-tieu-duong-20966.html",
+          "provenance_match": true,
+          "review_status": "unverified_research_only",
+          "allowed_to_answer": false
+        },
+        {
+          "chunk_id": "LC-STAGES-007__v1__a35d137234__0010",
+          "source_id": "LC-STAGES-007",
+          "source_url": "https://nhathuoclongchau.com.vn/bai-viet/cac-giai-doan-cua-benh-tieu-duong-20966.html",
+          "provenance_match": true,
+          "review_status": "unverified_research_only",
+          "allowed_to_answer": false
+        }
+      ],
+      "error_codes": [],
+      "answer_generated": false
+    },
+    {
+      "query_id": "Q02",
+      "status": "blocked_research_only",
+      "knowledge_gate": "BLOCKED_RESEARCH_ONLY",
+      "llm_called": false,
+      "hits": [
+        {
+          "chunk_id": "LC-HBA1C-006__v1__a2458c0a11__0002",
+          "source_id": "LC-HBA1C-006",
+          "source_url": "https://nhathuoclongchau.com.vn/bai-viet/hb-a1c-bao-nhieu-la-tien-tieu-duong-nhan-biet-va-cai-thien.html",
+          "provenance_match": true,
+          "review_status": "unverified_research_only",
+          "allowed_to_answer": false
+        },
+        {
+          "chunk_id": "LC-STAGES-007__v1__a35d137234__0008",
+          "source_id": "LC-STAGES-007",
+          "source_url": "https://nhathuoclongchau.com.vn/bai-viet/cac-giai-doan-cua-benh-tieu-duong-20966.html",
+          "provenance_match": true,
+          "review_status": "unverified_research_only",
+          "allowed_to_answer": false
+        },
+        {
+          "chunk_id": "LC-HBA1C-006__v1__a2458c0a11__0001",
+          "source_id": "LC-HBA1C-006",
+          "source_url": "https://nhathuoclongchau.com.vn/bai-viet/hb-a1c-bao-nhieu-la-tien-tieu-duong-nhan-biet-va-cai-thien.html",
+          "provenance_match": true,
+          "review_status": "unverified_research_only",
+          "allowed_to_answer": false
+        }
+      ],
+      "error_codes": [],
+      "answer_generated": false
+    },
+    {
+      "query_id": "Q03",
+      "status": "blocked_research_only",
+      "knowledge_gate": "BLOCKED_RESEARCH_ONLY",
+      "llm_called": false,
+      "hits": [
+        {
+          "chunk_id": "NIDDK-T2D-004__v1__9de2376433__0004",
+          "source_id": "NIDDK-T2D-004",
+          "source_url": "https://www.niddk.nih.gov/health-information/diabetes/overview/what-is-diabetes/type-2-diabetes",
+          "provenance_match": true,
+          "review_status": "unverified_research_only",
+          "allowed_to_answer": false
+        },
+        {
+          "chunk_id": "NIDDK-DIAG-003__v1__f6849feb36__0004",
+          "source_id": "NIDDK-DIAG-003",
+          "source_url": "https://www.niddk.nih.gov/health-information/diabetes/overview/tests-diagnosis",
+          "provenance_match": true,
+          "review_status": "unverified_research_only",
+          "allowed_to_answer": false
+        },
+        {
+          "chunk_id": "WHO-DIAB-005__v1__7e8937b88b__0004",
+          "source_id": "WHO-DIAB-005",
+          "source_url": "https://www.who.int/health-topics/diabetes",
+          "provenance_match": true,
+          "review_status": "unverified_research_only",
+          "allowed_to_answer": false
+        }
+      ],
+      "error_codes": [],
+      "answer_generated": false
+    }
+  ],
+  "joined_hits": 9,
+  "provenance_matches": 9,
+  "medical_knowledge_gate": "BLOCKED_RESEARCH_ONLY",
+  "answers_generated": 0,
+  "llm_called": false,
+  "application_db_write_operations": false,
+  "ml_training": false,
+  "network": "neo4j_aura_plus_local_model_cache",
+  "limitations": [
+    "No clinical validation or independent rights approval.",
+    "Fixed query smoke test; not an authorization boundary or a production ACL.",
+    "Read-only APIs used; prefer a read-only Neo4j account for enforcement."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "bundle": "phase5-step5-results-and-step6-e2e",
+  "status": "step5_live_mock_11_11_user_verified_step6_pending",
+  "scope": "research_sandbox_only",
+  "files": [
+    "23-Phase5-Experiment-Log.md",
+    "25-Step5-Live-Orchestrator-Results.md",
+    "26-Step6-End-to-End-Evaluation-Guide.md",
+    "27-Step6-Test-Matrix.md",
+    "28-Step6-Local-Validation-Record.md",
+    "registry/step6_consultation_manual_review.csv",
+    "phase5/step6_e2e_audit.py",
+    "phase5/step6_http_smoke.py",
+    "phase5/step6_self_test.py"
+  ],
+  "note": "Extract alongside existing 05-Multi-Agent-Integration; preserve local configuration and reports."
+}

@@ -1,0 +1,130 @@
+{
+  "experiment": "EXP-RAG-DOC-STEP2-001",
+  "stage": "phase4_step2_document_preparation",
+  "run_at_utc": "2026-11-03T04:50:27.577304+00:00",
+  "status": "prepared_for_embedding_review",
+  "source_registry_count": 7,
+  "eligible_source_count": 7,
+  "approved_text_file_count": 7,
+  "documents_prepared": 7,
+  "chunks_prepared": 66,
+  "chunking": {
+    "max_words": 180,
+    "overlap_words": 30
+  },
+  "documents": [
+    {
+      "source_id": "CDC-T2D-001",
+      "sections": 1,
+      "chunks": 4,
+      "words": 566,
+      "sha256": "65a78cb59ffd34eadbd62ecb1a526a82a98b724b524e303fd14cc36c54951eb7"
+    },
+    {
+      "source_id": "CDC-RISK-002",
+      "sections": 1,
+      "chunks": 3,
+      "words": 470,
+      "sha256": "b220610a80a4f6269592d8f125d6a714468e75a91b0b59bbe55ba6dd3de51e59"
+    },
+    {
+      "source_id": "NIDDK-DIAG-003",
+      "sections": 17,
+      "chunks": 19,
+      "words": 1463,
+      "sha256": "f6849feb36e665aad3665d6b5039e62f140e76dfe26b7354d140f4ebc33b5fdb"
+    },
+    {
+      "source_id": "NIDDK-T2D-004",
+      "sections": 10,
+      "chunks": 11,
+      "words": 937,
+      "sha256": "9de2376433cdd0fa9d880d26efdb36af9bcd68d19b83d4abaab2e0d5aecd0485"
+    },
+    {
+      "source_id": "WHO-DIAB-005",
+      "sections": 3,
+      "chunks": 5,
+      "words": 462,
+      "sha256": "7e8937b88b573ceca3ace4b942d028c4ec32e1a6ce4f72a4a2bab0a30db8562b"
+    },
+    {
+      "source_id": "LC-HBA1C-006",
+      "sections": 9,
+      "chunks": 11,
+      "words": 1164,
+      "sha256": "a2458c0a1138cd14fa92ee7b694484b12e833494a7230ef7b102c3344fad175e"
+    },
+    {
+      "source_id": "LC-STAGES-007",
+      "sections": 9,
+      "chunks": 13,
+      "words": 1700,
+      "sha256": "a35d13723409e5ba4ee311689b7d1c47d842363ee9422690dcae4654c5edf74e"
+    }
+  ],
+  "qa": {
+    "chunk_ids_unique": true,
+    "only_approved_sources": true,
+    "metadata_complete": true,
+    "chunk_size_ok": true,
+    "no_fabricated_documents": true
+  },
+  "blocked_sources": [],
+  "file_checks": [
+    {
+      "source_id": "CDC-T2D-001",
+      "path": "C:\\Users\\ThinkPad\\Multi-Agent_Du_doan_benh_tieu_duong\\Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau\\Giai-doan-4-Buoc-2-Jupyter-Document-Preparation\\data\\raw_approved\\CDC-T2D-001.txt",
+      "bytes": 3349,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "source_id": "CDC-RISK-002",
+      "path": "C:\\Users\\ThinkPad\\Multi-Agent_Du_doan_benh_tieu_duong\\Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau\\Giai-doan-4-Buoc-2-Jupyter-Document-Preparation\\data\\raw_approved\\CDC-RISK-002.txt",
+      "bytes": 2891,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "source_id": "NIDDK-DIAG-003",
+      "path": "C:\\Users\\ThinkPad\\Multi-Agent_Du_doan_benh_tieu_duong\\Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau\\Giai-doan-4-Buoc-2-Jupyter-Document-Preparation\\data\\raw_approved\\NIDDK-DIAG-003.txt",
+      "bytes": 8567,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "source_id": "NIDDK-T2D-004",
+      "path": "C:\\Users\\ThinkPad\\Multi-Agent_Du_doan_benh_tieu_duong\\Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau\\Giai-doan-4-Buoc-2-Jupyter-Document-Preparation\\data\\raw_approved\\NIDDK-T2D-004.txt",
+      "bytes": 5496,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "source_id": "WHO-DIAB-005",
+      "path": "C:\\Users\\ThinkPad\\Multi-Agent_Du_doan_benh_tieu_duong\\Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau\\Giai-doan-4-Buoc-2-Jupyter-Document-Preparation\\data\\raw_approved\\WHO-DIAB-005.txt",
+      "bytes": 3019,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "source_id": "LC-HBA1C-006",
+      "path": "C:\\Users\\ThinkPad\\Multi-Agent_Du_doan_benh_tieu_duong\\Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau\\Giai-doan-4-Buoc-2-Jupyter-Document-Preparation\\data\\raw_approved\\LC-HBA1C-006.txt",
+      "bytes": 7158,
+      "ok": true,
+      "issues": []
+    },
+    {
+      "source_id": "LC-STAGES-007",
+      "path": "C:\\Users\\ThinkPad\\Multi-Agent_Du_doan_benh_tieu_duong\\Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau\\Giai-doan-4-Buoc-2-Jupyter-Document-Preparation\\data\\raw_approved\\LC-STAGES-007.txt",
+      "bytes": 10641,
+      "ok": true,
+      "issues": []
+    }
+  ],
+  "embedding_executed": false,
+  "vector_db_created": false,
+  "llm_called": false,
+  "model_retrained": false,
+  "clinical_validation": false
+}

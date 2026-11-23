@@ -1,0 +1,40 @@
+{
+  "experiment": "EXP-PHASE5-STEP2-001",
+  "timestamp_utc": "2026-11-03T16:41:34.317836+00:00",
+  "mode": "live",
+  "status": "local_prediction_api_checked",
+  "cases": [
+    {
+      "case_id": "SYN-PRED-01",
+      "status": "ok",
+      "prediction_present": true,
+      "model_sha256_match": true,
+      "threshold_match": true,
+      "gate": "BLOCKED_RESEARCH_ONLY",
+      "llm_called": false,
+      "error_codes": [],
+      "research_only": true
+    },
+    {
+      "case_id": "SYN-PRED-02",
+      "status": "ok",
+      "prediction_present": true,
+      "model_sha256_match": true,
+      "threshold_match": true,
+      "gate": "BLOCKED_RESEARCH_ONLY",
+      "llm_called": false,
+      "error_codes": [],
+      "research_only": true
+    }
+  ],
+  "successes": 2,
+  "total": 2,
+  "model_retrained": false,
+  "model_loaded_by_this_program": false,
+  "chroma_or_neo4j_accessed": false,
+  "db_writes": false,
+  "medical_knowledge_gate": "BLOCKED_RESEARCH_ONLY",
+  "llm_called": false,
+  "network": "localhost_API_only",
+  "caution": "Synthetic inputs and research-only HbA1c indicator, not a diagnosis or future diabetes risk. Mock scores are fabricated for contract tests, not predictions."
+}

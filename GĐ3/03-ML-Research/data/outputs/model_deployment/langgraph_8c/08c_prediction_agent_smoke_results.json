@@ -1,0 +1,23 @@
+{
+  "experiment": "EXP-DEPLOY-8C-001",
+  "stage": "phase3_step8c_langgraph_prediction_agent",
+  "created_at_utc": "2026-11-02T19:37:17.414143+00:00",
+  "research_only": true,
+  "model_sha256": "31e9c94b0f14369be7920b9315b026d0c4afedb9f7b2885d120d631d930582b1",
+  "threshold": 0.225,
+  "model_task": "classify_hba1c_ge_5_7_indicator",
+  "mock_valid_passed": 2,
+  "invalid_rejected_before_api": 6,
+  "upstream_error_cases_handled": 2,
+  "real_local_api_cases_passed": 2,
+  "real_local_api_scores_synthetic": [
+    0.22552,
+    0.39459
+  ],
+  "full_five_agents_implemented": false,
+  "fit_executed": false,
+  "test_reopened": false,
+  "model_modified": false,
+  "clinical_validation": false,
+  "api_publicly_exposed": false
+}

@@ -1,0 +1,166 @@
+{
+  "experiment": "EXP-PHASE5-STEP5-001",
+  "timestamp_utc": "2026-11-03T17:48:38.230505+00:00",
+  "mode": "live",
+  "consultation_mode": "mock",
+  "model": null,
+  "status": "orchestrator_live_technical_pass",
+  "passed": 11,
+  "total": 11,
+  "cases": [
+    {
+      "request_id": "SYN-PRED-01",
+      "operation": "research_prediction",
+      "status": "ok",
+      "passed": true,
+      "error_codes": [],
+      "prediction_sha256_match": true,
+      "evidence_count": 0,
+      "provenance_matches": 0,
+      "synthetic_citations": [],
+      "llm_called": false,
+      "medical_gate": "BLOCKED_RESEARCH_ONLY"
+    },
+    {
+      "request_id": "SYN-PRED-02",
+      "operation": "research_prediction",
+      "status": "ok",
+      "passed": true,
+      "error_codes": [],
+      "prediction_sha256_match": true,
+      "evidence_count": 0,
+      "provenance_matches": 0,
+      "synthetic_citations": [],
+      "llm_called": false,
+      "medical_gate": "BLOCKED_RESEARCH_ONLY"
+    },
+    {
+      "request_id": "SYN-KNOW-Q01",
+      "operation": "knowledge_research_lookup",
+      "status": "blocked_research_only",
+      "passed": true,
+      "error_codes": [],
+      "prediction_sha256_match": null,
+      "evidence_count": 3,
+      "provenance_matches": 3,
+      "synthetic_citations": [],
+      "llm_called": false,
+      "medical_gate": "BLOCKED_RESEARCH_ONLY"
+    },
+    {
+      "request_id": "SYN-KNOW-Q02",
+      "operation": "knowledge_research_lookup",
+      "status": "blocked_research_only",
+      "passed": true,
+      "error_codes": [],
+      "prediction_sha256_match": null,
+      "evidence_count": 3,
+      "provenance_matches": 3,
+      "synthetic_citations": [],
+      "llm_called": false,
+      "medical_gate": "BLOCKED_RESEARCH_ONLY"
+    },
+    {
+      "request_id": "SYN-KNOW-Q03",
+      "operation": "knowledge_research_lookup",
+      "status": "blocked_research_only",
+      "passed": true,
+      "error_codes": [],
+      "prediction_sha256_match": null,
+      "evidence_count": 3,
+      "provenance_matches": 3,
+      "synthetic_citations": [],
+      "llm_called": false,
+      "medical_gate": "BLOCKED_RESEARCH_ONLY"
+    },
+    {
+      "request_id": "SYN-ATLAS-S01",
+      "operation": "synthetic_rag_demo",
+      "status": "mock_response_not_llm",
+      "passed": true,
+      "error_codes": [],
+      "prediction_sha256_match": null,
+      "evidence_count": 0,
+      "provenance_matches": 0,
+      "synthetic_citations": [
+        "SYN-ATLAS-001"
+      ],
+      "llm_called": false,
+      "medical_gate": "BLOCKED_RESEARCH_ONLY"
+    },
+    {
+      "request_id": "SYN-ATLAS-S02",
+      "operation": "synthetic_rag_demo",
+      "status": "mock_response_not_llm",
+      "passed": true,
+      "error_codes": [],
+      "prediction_sha256_match": null,
+      "evidence_count": 0,
+      "provenance_matches": 0,
+      "synthetic_citations": [
+        "SYN-ATLAS-002"
+      ],
+      "llm_called": false,
+      "medical_gate": "BLOCKED_RESEARCH_ONLY"
+    },
+    {
+      "request_id": "SYN-ATLAS-S03",
+      "operation": "synthetic_rag_demo",
+      "status": "mock_response_not_llm",
+      "passed": true,
+      "error_codes": [],
+      "prediction_sha256_match": null,
+      "evidence_count": 0,
+      "provenance_matches": 0,
+      "synthetic_citations": [
+        "SYN-ATLAS-003"
+      ],
+      "llm_called": false,
+      "medical_gate": "BLOCKED_RESEARCH_ONLY"
+    },
+    {
+      "request_id": "SYN-ATLAS-S04",
+      "operation": "synthetic_rag_demo",
+      "status": "abstained",
+      "passed": true,
+      "error_codes": [],
+      "prediction_sha256_match": null,
+      "evidence_count": 0,
+      "provenance_matches": 0,
+      "synthetic_citations": [],
+      "llm_called": false,
+      "medical_gate": "BLOCKED_RESEARCH_ONLY"
+    },
+    {
+      "request_id": "SYN-ATLAS-S05",
+      "operation": "synthetic_rag_demo",
+      "status": "abstained",
+      "passed": true,
+      "error_codes": [],
+      "prediction_sha256_match": null,
+      "evidence_count": 0,
+      "provenance_matches": 0,
+      "synthetic_citations": [],
+      "llm_called": false,
+      "medical_gate": "BLOCKED_RESEARCH_ONLY"
+    },
+    {
+      "request_id": "SYN-ATLAS-S06",
+      "operation": "synthetic_rag_demo",
+      "status": "abstained",
+      "passed": true,
+      "error_codes": [],
+      "prediction_sha256_match": null,
+      "evidence_count": 0,
+      "provenance_matches": 0,
+      "synthetic_citations": [],
+      "llm_called": false,
+      "medical_gate": "BLOCKED_RESEARCH_ONLY"
+    }
+  ],
+  "medical_knowledge_gate": "BLOCKED_RESEARCH_ONLY",
+  "clinical_answers_generated": false,
+  "db_writes": false,
+  "model_retrained": false,
+  "limitation": "Only fixed synthetic fixtures; Ollama answers need manual review; not a production authorization boundary."
+}

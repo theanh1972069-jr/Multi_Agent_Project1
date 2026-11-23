@@ -1,0 +1,5 @@
+# Bước 2 NHANES — môi trường Jupyter Notebook (Python 3.11+ được khuyến nghị)
+notebook>=7
+ipykernel>=6
+pandas>=2.2
+numpy>=1.26

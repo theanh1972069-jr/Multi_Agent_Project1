@@ -1,0 +1,44 @@
+{
+  "package": "Phase5-Step3-Results-Step4-Consultation",
+  "package_version": "1.0",
+  "execution_evidence": {
+    "step3": "user-provided JSON live",
+    "step4_local_unit_tests": "17/17",
+    "step4_mock": "6/6",
+    "step4_live_ollama": "not_run_in_model_environment"
+  },
+  "files": [
+    {
+      "path": "15-Step3-Live-Results.md",
+      "sha256": "7d25bf13a15c2e40b5edf0aea69af4aef4e841a954bb8f3c2a8778fcc4598082"
+    },
+    {
+      "path": "16-Step4-Consultation-Agent-Sandbox-Guide.md",
+      "sha256": "7b179ff5935075c4ea01a1ce5b1ced18f09aecbb4871c2d47e8dae947e72d6b7"
+    },
+    {
+      "path": "17-Step4-Test-Matrix.md",
+      "sha256": "d0f9a94509d59b53aacbd2bb7c3bcfaf062dda57ed2411c1477f5d0584fe2cdb"
+    },
+    {
+      "path": "requirements-step4.txt",
+      "sha256": "3c19e33297374fc9389dbe8d30009cdf2a1466cd87fe4dba3294cadb4f75cfaf"
+    },
+    {
+      "path": "phase5/step4_consultation.py",
+      "sha256": "d3f17817b66a00a769d358cc9b3b0c60433e0651abd287009159fb077e258ed1"
+    },
+    {
+      "path": "phase5/step4_run.py",
+      "sha256": "ba2616570f5a0f91aca0bbf91a1886a4927521af5f58df9d516694222d1986d3"
+    },
+    {
+      "path": "phase5/step4_self_test.py",
+      "sha256": "52e01f86f8597e0dd0bad9bed9800ab9bc664cce8b3660214a1395785a20a053"
+    },
+    {
+      "path": "data/sandbox/step4_atlas_synthetic.json",
+      "sha256": "e01d192cc8c03ef78821435df3a5628a582c84089eabf0a7155514ac26753304"
+    }
+  ]
+}

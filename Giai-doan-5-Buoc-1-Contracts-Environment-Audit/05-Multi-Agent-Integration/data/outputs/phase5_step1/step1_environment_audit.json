@@ -1,0 +1,44 @@
+{
+  "experiment": "EXP-PHASE5-STEP1-LOCAL-001",
+  "stage": "phase5_step1_integration_contracts_and_environment_audit",
+  "configuration_mode": "local_user_configuration",
+  "python": {
+    "version": "3.13.9",
+    "version_supported": true
+  },
+  "packages": {
+    "pydantic": "2.14.2",
+    "langgraph": "1.2.19",
+    "fastapi": null,
+    "requests": "2.34.2",
+    "chromadb": "1.5.9",
+    "neo4j": "6.4.1",
+    "scikit-learn": "1.9.1"
+  },
+  "locked_contract": {
+    "model_name": "LogisticRegression",
+    "model_sha256_expected": "31e9c94b0f14369be7920b9315b026d0c4afedb9f7b2885d120d631d930582b1",
+    "threshold": 0.225,
+    "task": "classify_hba1c_ge_5_7_indicator",
+    "chroma_collection": "diabetes_kb_step3_e5small_v1",
+    "medical_knowledge_gate": "BLOCKED_RESEARCH_ONLY"
+  },
+  "local_checks": {
+    "model_artifact": "SHA256_MATCH",
+    "prediction_api_config": "LOCAL_ROUTE_VALID_NOT_CONNECTED",
+    "chroma_directory": "DIRECTORY_EXISTS_NOT_CONNECTED",
+    "chroma_collection_config": "EXPECTED_NAME",
+    "neo4j_uri_config": "TLS_URI_FORMAT_VALID_NOT_CONNECTED",
+    "neo4j_database_config": "CONFIGURED_NOT_CONNECTED",
+    "ollama_config": "OPTIONAL_LOCAL_FORMAT_VALID_NOT_CONNECTED"
+  },
+  "next_actions": [],
+  "network_calls": false,
+  "llm_called": false,
+  "database_reads": false,
+  "database_writes": false,
+  "ml_model_loaded": false,
+  "ml_training": false,
+  "status": "configured_not_connected",
+  "warning": "File/config inspection ONLY. No FastAPI/ChromaDB/Neo4j/Ollama connectivity, clinical validation, source rights, or medical approval has been tested."
+}

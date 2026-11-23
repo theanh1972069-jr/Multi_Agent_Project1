@@ -1,0 +1,39 @@
+{
+  "experiment": "EXP-DEPLOY-8A-001",
+  "created_at_utc": "2026-11-02T18:45:27.917942+00:00",
+  "stage": "phase3_step8a_local_inference_preflight",
+  "status": "research_only_not_clinically_validated",
+  "source": "NHANES 2021-2023 subset, screening_candidate",
+  "model": "LogisticRegression",
+  "model_sha256": "31e9c94b0f14369be7920b9315b026d0c4afedb9f7b2885d120d631d930582b1",
+  "python_version": "3.13.9",
+  "sklearn_version": "1.8.0",
+  "features": [
+    "RIDAGEYR",
+    "RIAGENDR",
+    "BMXBMI"
+  ],
+  "feature_schema": {
+    "RIDAGEYR": "integer 20..80; 80 is top-coded 80+",
+    "RIAGENDR": "integer code 1 or 2",
+    "BMXBMI": "finite float 11.1..74.8 kg/m2 (research domain, not clinical limits)"
+  },
+  "label": "HbA1c >= 5.7%, not a type 2 diagnosis",
+  "locked_threshold": 0.225,
+  "validation_roc_auc_reproduced": 0.7173280065005418,
+  "validation_n": 705,
+  "validation_positive_n": 208,
+  "test_reopened": false,
+  "fit_executed": false,
+  "model_modified": false,
+  "synthetic_input_tests_n": 2,
+  "synthetic_invalid_cases_rejected": 4,
+  "limitations": [
+    "NOT a clinical diagnostic tool or future type 2 diabetes risk score",
+    "not externally/clinically validated",
+    "NHANES complex-survey weights/design not accounted for in training/evaluation",
+    "pregnancy status incomplete",
+    "positive alerts may be frequent",
+    "no model tuning or repeat test evaluation after holdout was opened"
+  ]
+}

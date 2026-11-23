@@ -1,0 +1,31 @@
+{
+  "experiment": "EXP-RAG-GATE-STEP5A-001",
+  "stage": "phase4_step5a_evidence_gate",
+  "created_at_utc": "2026-11-03T06:49:35.138606+00:00",
+  "collection": "diabetes_kb_step3_e5small_v1",
+  "source_snapshot_sha256": "cc064ec7187192c999418051cb2125a0510412843f8d0908e3d6842e4a71c7cd",
+  "indexed_records_unchanged": 66,
+  "reviewed_hits_step4": 42,
+  "questions_step4": 14,
+  "precision_at_3_dev": 0.8611,
+  "strict_hit_at_3_dev": 0.8333,
+  "mrr_at_3_dev": 0.7778,
+  "citation_ok_hits": 25,
+  "rights_evidence_counts": {
+    "no": 29,
+    "yes": 13
+  },
+  "source_rights_and_medical_review_claimed_complete": [],
+  "source_reviews_independent": false,
+  "ready_for_llm": false,
+  "blockers": [
+    "Rights/permissions require independent source-level verification",
+    "Citation correctness only 25/42 reviewed hits",
+    "Q01 and Q05 have no grade-2 hits at top3",
+    "No tested abstention, medical safety, or prompt-injection defenses"
+  ],
+  "top10_review_file_exists": true,
+  "llm_called": false,
+  "embedding_index_modified": false,
+  "model_retrained": false
+}

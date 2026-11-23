@@ -1,0 +1,28 @@
+{
+  "phase": "phase3_step5",
+  "source": "NHANES 2021-2023",
+  "cohort": "screening_candidate self-report never diagnosed + exclude RIDEXPRG=1",
+  "label_definition": "LBXGH >= 5.7% (not a diabetes diagnosis or future risk)",
+  "features": [
+    "RIDAGEYR",
+    "RIAGENDR",
+    "BMXBMI"
+  ],
+  "training_sample_count": 3288,
+  "validation_sample_count": 705,
+  "test_holdout_sample_count": 705,
+  "random_state": 42,
+  "selected_model": "LogisticRegression",
+  "selection_criterion": "ROC-AUC on validation; Brier tiebreaker",
+  "sklearn_version": "1.8.0",
+  "python_version": "3.13.9",
+  "trained_by": "user locally in Jupyter Notebook",
+  "test_metrics": null,
+  "restrictions": [
+    "research only; no diagnosis or clinical use",
+    "not externally validated",
+    "not weighted for NHANES complex survey design",
+    "pregnancy missingness unresolved",
+    "not a forecast of type 2 diabetes incidence"
+  ]
+}

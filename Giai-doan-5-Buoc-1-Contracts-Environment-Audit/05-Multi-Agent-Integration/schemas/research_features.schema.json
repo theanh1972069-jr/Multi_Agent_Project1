@@ -1,0 +1,33 @@
+{
+  "additionalProperties": false,
+  "description": "Locked NHANES input schema (strict, without real patient data in tests).",
+  "properties": {
+    "RIDAGEYR": {
+      "maximum": 80,
+      "minimum": 20,
+      "title": "Ridageyr",
+      "type": "integer"
+    },
+    "RIAGENDR": {
+      "enum": [
+        1,
+        2
+      ],
+      "title": "Riagendr",
+      "type": "integer"
+    },
+    "BMXBMI": {
+      "maximum": 74.8,
+      "minimum": 11.1,
+      "title": "Bmxbmi",
+      "type": "number"
+    }
+  },
+  "required": [
+    "RIDAGEYR",
+    "RIAGENDR",
+    "BMXBMI"
+  ],
+  "title": "ResearchFeatures",
+  "type": "object"
+}

@@ -1,0 +1,18 @@
+{
+  "experiment": "EXP-DEPLOY-8B-001",
+  "stage": "phase3_step8b_local_fastapi_smoke_test",
+  "created_at_utc": "2026-11-02T19:23:03.912920+00:00",
+  "status": "research_only_not_clinically_validated",
+  "model_sha256": "31e9c94b0f14369be7920b9315b026d0c4afedb9f7b2885d120d631d930582b1",
+  "locked_threshold": 0.225,
+  "synthetic_valid_cases_passed": 2,
+  "invalid_cases_rejected": 6,
+  "health_live_ok": true,
+  "health_ready_ok": true,
+  "fit_executed": false,
+  "test_reopened": false,
+  "model_modified": false,
+  "api_publicly_exposed": false,
+  "clinical_validation": false,
+  "notes": "Research-only local API; no actual health data sent; model unchanged."
+}

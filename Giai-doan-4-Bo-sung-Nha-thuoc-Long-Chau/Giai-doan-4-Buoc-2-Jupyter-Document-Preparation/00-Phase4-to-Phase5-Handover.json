@@ -1,0 +1,30 @@
+{
+  "project": "Multi-Agent AI System for Diabetes Risk Assessment",
+  "generated_on": "2026-11-03",
+  "phase4_status": "completed_research_sandbox_only",
+  "phase4_last_terminal_status": "research_sandbox_phase4_ready_to_close_with_limitations",
+  "phase4_latest_terminal_evidence": {
+    "technical_checks_passed": 17,
+    "technical_checks_total": 17,
+    "manual_reviews_passed": 3,
+    "manual_reviews_total": 3,
+    "medical_knowledge_gate": "BLOCKED_RESEARCH_ONLY",
+    "llm_called": false,
+    "db_writes": false,
+    "ml_training": false
+  },
+  "limitations": [
+    "final rerun JSON not uploaded; closure based on terminal stdout",
+    "medical and rights independent review incomplete",
+    "technical reporting is not live production E2E testing",
+    "synthetic LLM sandbox is not clinical validation"
+  ],
+  "phase5_status": "kickoff_design_only",
+  "immutable_reference": {
+    "chroma_collection": "diabetes_kb_step3_e5small_v1",
+    "chroma_snapshot_sha256": "cc064ec7187192c999418051cb2125a0510412843f8d0908e3d6842e4a71c7cd",
+    "nhanes_model_sha256": "31e9c94b0f14369be7920b9315b026d0c4afedb9f7b2885d120d631d930582b1",
+    "model_threshold": 0.225
+  },
+  "phase5_next_step": "Integration Contracts & Environment Audit"
+}

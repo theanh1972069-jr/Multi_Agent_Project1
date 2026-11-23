@@ -1,0 +1,9 @@
+{
+  "model_artifact_path": "C:/Users/ThinkPad/Multi-Agent_Du_doan_benh_tieu_duong/GĐ3/03-ML-Research/models/baseline/nhanes_hba1c_baseline_step5.joblib",
+  "prediction_api_url": "http://127.0.0.1:8000/api/v1/research/nhanes/hba1c/predict",
+  "chroma_persist_dir": "C:/Users/ThinkPad/Multi-Agent_Du_doan_benh_tieu_duong/Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau/Giai-doan-4-Buoc-2-Jupyter-Document-Preparation/data/vector_store/chroma_step3",
+  "chroma_collection": "diabetes_kb_step3_e5small_v1",
+  "neo4j_uri": "neo4j+s://dc94ac4e.databases.neo4j.io",
+  "neo4j_database": "dc94ac4e",
+  "ollama_url": "http://127.0.0.1:11434"
+}

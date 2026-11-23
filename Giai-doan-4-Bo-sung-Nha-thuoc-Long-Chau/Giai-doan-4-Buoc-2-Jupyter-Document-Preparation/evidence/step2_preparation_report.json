@@ -1,0 +1,101 @@
+{
+  "experiment": "EXP-RAG-DOC-STEP2-001",
+  "stage": "phase4_step2_document_preparation",
+  "run_at_utc": "2026-11-03T03:31:35.282813+00:00",
+  "status": "awaiting_source_approval_and_licensed_text",
+  "source_registry_count": 7,
+  "eligible_source_count": 0,
+  "approved_text_file_count": 0,
+  "documents_prepared": 0,
+  "chunks_prepared": 0,
+  "chunking": {
+    "max_words": 180,
+    "overlap_words": 30
+  },
+  "documents": [],
+  "qa": {
+    "chunk_ids_unique": true,
+    "only_approved_sources": true,
+    "metadata_complete": true,
+    "chunk_size_ok": true,
+    "no_fabricated_documents": true
+  },
+  "blocked_sources": [
+    {
+      "source_id": "CDC-T2D-001",
+      "reasons": [
+        "approval_status ≠ approved_research",
+        "license_review_status ≠ verified",
+        "content_review_status ≠ owner_reviewed_research_only",
+        "thiếu reviewer",
+        "thiếu source_retrieved_at_utc"
+      ]
+    },
+    {
+      "source_id": "CDC-RISK-002",
+      "reasons": [
+        "approval_status ≠ approved_research",
+        "license_review_status ≠ verified",
+        "content_review_status ≠ owner_reviewed_research_only",
+        "thiếu reviewer",
+        "thiếu source_retrieved_at_utc"
+      ]
+    },
+    {
+      "source_id": "NIDDK-DIAG-003",
+      "reasons": [
+        "approval_status ≠ approved_research",
+        "license_review_status ≠ verified",
+        "content_review_status ≠ owner_reviewed_research_only",
+        "thiếu reviewer",
+        "thiếu source_retrieved_at_utc"
+      ]
+    },
+    {
+      "source_id": "NIDDK-T2D-004",
+      "reasons": [
+        "approval_status ≠ approved_research",
+        "license_review_status ≠ verified",
+        "content_review_status ≠ owner_reviewed_research_only",
+        "thiếu reviewer",
+        "thiếu source_retrieved_at_utc"
+      ]
+    },
+    {
+      "source_id": "WHO-DIAB-005",
+      "reasons": [
+        "approval_status ≠ approved_research",
+        "license_review_status ≠ verified",
+        "content_review_status ≠ owner_reviewed_research_only",
+        "thiếu reviewer",
+        "thiếu source_retrieved_at_utc"
+      ]
+    },
+    {
+      "source_id": "LC-HBA1C-006",
+      "reasons": [
+        "approval_status ≠ approved_research",
+        "license_review_status ≠ verified",
+        "content_review_status ≠ owner_reviewed_research_only",
+        "thiếu reviewer",
+        "thiếu source_retrieved_at_utc"
+      ]
+    },
+    {
+      "source_id": "LC-STAGES-007",
+      "reasons": [
+        "approval_status ≠ approved_research",
+        "license_review_status ≠ verified",
+        "content_review_status ≠ owner_reviewed_research_only",
+        "thiếu reviewer",
+        "thiếu source_retrieved_at_utc"
+      ]
+    }
+  ],
+  "file_checks": [],
+  "embedding_executed": false,
+  "vector_db_created": false,
+  "llm_called": false,
+  "model_retrained": false,
+  "clinical_validation": false
+}

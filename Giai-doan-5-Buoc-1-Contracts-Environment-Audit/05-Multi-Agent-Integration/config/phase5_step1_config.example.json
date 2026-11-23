@@ -1,0 +1,9 @@
+{
+  "model_artifact_path": null,
+  "prediction_api_url": "http://127.0.0.1:8000/api/v1/research/nhanes/hba1c/predict",
+  "chroma_persist_dir": null,
+  "chroma_collection": "diabetes_kb_step3_e5small_v1",
+  "neo4j_uri": null,
+  "neo4j_database": "neo4j",
+  "ollama_url": "http://127.0.0.1:11434"
+}

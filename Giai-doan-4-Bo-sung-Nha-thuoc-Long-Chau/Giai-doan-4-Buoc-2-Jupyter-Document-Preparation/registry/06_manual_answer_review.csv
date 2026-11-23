@@ -1,0 +1,4 @@
+﻿case_id,evidence_chunk_id,answer_fully_supported_yes_no,citation_correct_yes_no,unsupported_claim_found_yes_no,reviewer,reviewed_at_utc,notes
+S01,SYN-ATLAS-001,yes,yes,no,Theanh,2026-11-03T15:25:56Z,Gợi ý đối chiếu: câu trả lời khớp cả ba mô-đun trong tài liệu gốc. Hãy đọc lại và xác nhận.
+S02,SYN-ATLAS-002,yes,yes,no,Theanh,2026-11-03T15:25:56Z,Gợi ý đối chiếu: câu trả lời đúng quy tắc không nhập dữ liệu cá nhân thật. Hãy đọc lại và xác nhận.
+S03,SYN-ATLAS-003,yes,yes,no,Theanh,2026-11-03T15:25:56Z,Gợi ý đối chiếu: câu trả lời diễn đạt đúng quy tắc từ chối khi thiếu bằng chứng. Hãy đọc lại và xác nhận.

@@ -1,0 +1,217 @@
+{
+  "$defs": {
+    "AgentError": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "pattern": "^[A-Z][A-Z0-9_]{1,79}$",
+          "title": "Code",
+          "type": "string"
+        },
+        "component": {
+          "maxLength": 80,
+          "minLength": 1,
+          "title": "Component",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "component"
+      ],
+      "title": "AgentError",
+      "type": "object"
+    },
+    "EvidenceMetadata": {
+      "additionalProperties": false,
+      "description": "Identifiers ONLY. Retrieved unapproved medical content must not enter state.",
+      "properties": {
+        "chunk_id": {
+          "maxLength": 180,
+          "minLength": 1,
+          "title": "Chunk Id",
+          "type": "string"
+        },
+        "source_id": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        },
+        "provenance_match": {
+          "title": "Provenance Match",
+          "type": "boolean"
+        },
+        "review_status": {
+          "title": "Review Status",
+          "type": "string"
+        },
+        "allowed_to_answer": {
+          "default": false,
+          "title": "Allowed To Answer",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "chunk_id",
+        "source_id",
+        "provenance_match",
+        "review_status"
+      ],
+      "title": "EvidenceMetadata",
+      "type": "object"
+    },
+    "UpstreamPrediction": {
+      "additionalProperties": false,
+      "description": "Matches existing 8B response; use Step 2 to call API and validate.",
+      "properties": {
+        "status": {
+          "const": "research_only",
+          "title": "Status",
+          "type": "string"
+        },
+        "task": {
+          "const": "classify_hba1c_ge_5_7_indicator",
+          "title": "Task",
+          "type": "string"
+        },
+        "model_name": {
+          "const": "LogisticRegression",
+          "title": "Model Name",
+          "type": "string"
+        },
+        "model_sha256": {
+          "const": "31e9c94b0f14369be7920b9315b026d0c4afedb9f7b2885d120d631d930582b1",
+          "title": "Model Sha256",
+          "type": "string"
+        },
+        "threshold": {
+          "title": "Threshold",
+          "type": "number"
+        },
+        "model_score": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Model Score",
+          "type": "number"
+        },
+        "predicted_label": {
+          "enum": [
+            0,
+            1
+          ],
+          "title": "Predicted Label",
+          "type": "integer"
+        },
+        "warning": {
+          "minLength": 1,
+          "title": "Warning",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "task",
+        "model_name",
+        "model_sha256",
+        "threshold",
+        "model_score",
+        "predicted_label",
+        "warning"
+      ],
+      "title": "UpstreamPrediction",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Safe, research-only output envelope, no implied clinical assessment.",
+  "properties": {
+    "request_id": {
+      "title": "Request Id",
+      "type": "string"
+    },
+    "operation": {
+      "enum": [
+        "research_prediction",
+        "synthetic_rag_demo"
+      ],
+      "title": "Operation",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "not_connected",
+        "blocked",
+        "needs_input",
+        "failed",
+        "ok"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "knowledge_gate": {
+      "enum": [
+        "BLOCKED_RESEARCH_ONLY",
+        "NOT_EVALUATED",
+        "SYNTHETIC_READY"
+      ],
+      "title": "Knowledge Gate",
+      "type": "string"
+    },
+    "llm_called": {
+      "default": false,
+      "title": "Llm Called",
+      "type": "boolean"
+    },
+    "prediction": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/UpstreamPrediction"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "evidence_metadata": {
+      "items": {
+        "$ref": "#/$defs/EvidenceMetadata"
+      },
+      "title": "Evidence Metadata",
+      "type": "array"
+    },
+    "errors": {
+      "items": {
+        "$ref": "#/$defs/AgentError"
+      },
+      "title": "Errors",
+      "type": "array"
+    },
+    "warning": {
+      "default": "Research-only HbA1c >=5.7% indicator classification; NOT a diagnosis or future type 2 diabetes risk estimate.",
+      "title": "Warning",
+      "type": "string"
+    }
+  },
+  "required": [
+    "request_id",
+    "operation",
+    "status",
+    "knowledge_gate"
+  ],
+  "title": "WorkflowResponse",
+  "type": "object"
+}

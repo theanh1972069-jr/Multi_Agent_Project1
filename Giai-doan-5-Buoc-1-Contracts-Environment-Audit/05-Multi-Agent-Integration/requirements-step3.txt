@@ -1,0 +1,6 @@
+# Phase 5 Step 3 Knowledge Agent: explicit mock and live read-only modes
+pydantic>=2.10,<3
+langgraph>=1.0,<2
+chromadb>=1.0,<2
+neo4j>=5.20,<7
+sentence-transformers>=3.0,<6

@@ -1,0 +1,47 @@
+{
+  "experiment": "EXP-EVAL-TEST-001",
+  "phase": "phase3_step6b",
+  "test_evaluated": true,
+  "evaluated_at_utc": "2026-11-02T18:21:01.358633+00:00",
+  "plan_id": "NHANES-HbA1c-6B-v0.1",
+  "model": "LogisticRegression",
+  "model_sha256": "31e9c94b0f14369be7920b9315b026d0c4afedb9f7b2885d120d631d930582b1",
+  "threshold_locked_before_test": 0.225,
+  "features": [
+    "RIDAGEYR",
+    "RIAGENDR",
+    "BMXBMI"
+  ],
+  "n_test": 705,
+  "positive_n": 208,
+  "positive_rate_unweighted": 0.2950354609929078,
+  "roc_auc": 0.7406409611515244,
+  "average_precision": 0.5118063674977568,
+  "brier_score": 0.17845448108524187,
+  "precision": 0.4069767441860465,
+  "recall": 0.8413461538461539,
+  "specificity": 0.4869215291750503,
+  "f1": 0.54858934169279,
+  "f2": 0.6933438985736925,
+  "accuracy": 0.5914893617021276,
+  "balanced_accuracy": 0.6641338415106021,
+  "confusion_matrix": {
+    "tn": 242,
+    "fp": 255,
+    "fn": 33,
+    "tp": 175
+  },
+  "pred_positive_n": 430,
+  "pred_positive_pct": 60.99290780141844,
+  "survey_weighted": false,
+  "external_validation": false,
+  "clinical_validation": false,
+  "fit_executed": false,
+  "limitations": [
+    "NHANES cross-sectional: only classifies observed HbA1c >=5.7%",
+    "not a future type 2 diabetes risk estimate or diagnosis",
+    "survey weights not used",
+    "pregnancy status unavailable for many respondents",
+    "test used once at locked threshold"
+  ]
+}

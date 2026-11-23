@@ -1,0 +1,83 @@
+{
+  "experiment": "EXP-EXPLAIN-VAL-001",
+  "step": "phase3_step7",
+  "model": "LogisticRegression",
+  "model_sha256": "31e9c94b0f14369be7920b9315b026d0c4afedb9f7b2885d120d631d930582b1",
+  "features": [
+    "RIDAGEYR",
+    "RIAGENDR",
+    "BMXBMI"
+  ],
+  "validation_n": 705,
+  "validation_positive_n": 208,
+  "validation_roc_auc_reproduced": 0.7173280065005418,
+  "threshold_locked_from_step6a": 0.225,
+  "coefficients": [
+    {
+      "transformed_feature": "num__RIDAGEYR",
+      "coefficient_log_odds": 0.7214880291755614,
+      "odds_ratio_encoded_unit": 2.0574925428238333
+    },
+    {
+      "transformed_feature": "num__BMXBMI",
+      "coefficient_log_odds": 0.458259780706356,
+      "odds_ratio_encoded_unit": 1.5813197460681638
+    },
+    {
+      "transformed_feature": "cat__RIAGENDR_2.0",
+      "coefficient_log_odds": -0.44835617088672214,
+      "odds_ratio_encoded_unit": 0.6386771653042523
+    },
+    {
+      "transformed_feature": "cat__RIAGENDR_1.0",
+      "coefficient_log_odds": -0.21023430003858623,
+      "odds_ratio_encoded_unit": 0.8103943482974636
+    }
+  ],
+  "permutation_auc_drop": [
+    {
+      "feature": "RIDAGEYR",
+      "importance_mean_auc_drop": 0.15701927913635674,
+      "importance_std_auc_drop": 0.021074074496346143
+    },
+    {
+      "feature": "BMXBMI",
+      "importance_mean_auc_drop": 0.06330942385079721,
+      "importance_std_auc_drop": 0.013858306043003862
+    },
+    {
+      "feature": "RIAGENDR",
+      "importance_mean_auc_drop": -0.006283131481194715,
+      "importance_std_auc_drop": 0.002876116670778378
+    }
+  ],
+  "local_examples": [
+    {
+      "example_type": "lowest_score",
+      "predicted_score": 0.03941,
+      "predicted_label_locked_0225": 0,
+      "observed_label": 0
+    },
+    {
+      "example_type": "near_threshold",
+      "predicted_score": 0.22488,
+      "predicted_label_locked_0225": 0,
+      "observed_label": 0
+    },
+    {
+      "example_type": "highest_score",
+      "predicted_score": 0.80025,
+      "predicted_label_locked_0225": 1,
+      "observed_label": 0
+    }
+  ],
+  "test_opened_in_step7": false,
+  "fit_executed": false,
+  "model_modified": false,
+  "limitations": [
+    "research only; HbA1c >= 5.7% label",
+    "not a causal explanation",
+    "not survey weighted",
+    "post-test interpretability; no new holdout evaluation"
+  ]
+}

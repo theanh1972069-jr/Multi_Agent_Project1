@@ -1,0 +1,16 @@
+example_type,transformed_feature,log_odds_contribution
+lowest_score,(intercept),-0.6652908259311525
+lowest_score,num__RIDAGEYR,-1.28082002806446
+lowest_score,num__BMXBMI,-0.7991414852431787
+lowest_score,cat__RIAGENDR_1.0,-0.0
+lowest_score,cat__RIAGENDR_2.0,-0.44835617088672214
+near_threshold,(intercept),-0.6652908259311525
+near_threshold,num__RIDAGEYR,-1.1550083495459593
+near_threshold,num__BMXBMI,1.0311932585541221
+near_threshold,cat__RIAGENDR_1.0,-0.0
+near_threshold,cat__RIAGENDR_2.0,-0.44835617088672214
+highest_score,(intercept),-0.6652908259311525
+highest_score,num__RIDAGEYR,0.8579785067500509
+highest_score,num__BMXBMI,1.6434994857956655
+highest_score,cat__RIAGENDR_1.0,-0.0
+highest_score,cat__RIAGENDR_2.0,-0.44835617088672214

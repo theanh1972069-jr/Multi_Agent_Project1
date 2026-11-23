@@ -1,0 +1,31 @@
+{
+  "phase": "phase3_step6a",
+  "validation_only": true,
+  "test_opened": false,
+  "fit_executed": false,
+  "model": "LogisticRegression",
+  "model_sha256": "31e9c94b0f14369be7920b9315b026d0c4afedb9f7b2885d120d631d930582b1",
+  "validation_n": 705,
+  "validation_positive_n": 208,
+  "roc_auc_validation": 0.7173280065005418,
+  "average_precision_validation": 0.44147287005089364,
+  "brier_validation": 0.18679034077670936,
+  "threshold_0_5": {
+    "threshold": 0.5,
+    "precision": 0.44155844155844154,
+    "recall": 0.16346153846153846,
+    "specificity": 0.9134808853118712,
+    "f1": 0.23859649122807017,
+    "f2": 0.18701870187018702,
+    "accuracy": 0.6921985815602837,
+    "tn": 454,
+    "fp": 43,
+    "fn": 174,
+    "tp": 34,
+    "pred_positive_n": 77
+  },
+  "selected_threshold": null,
+  "clinical_validation": "not performed",
+  "external_validation": "not performed",
+  "survey_weighted": "no"
+}

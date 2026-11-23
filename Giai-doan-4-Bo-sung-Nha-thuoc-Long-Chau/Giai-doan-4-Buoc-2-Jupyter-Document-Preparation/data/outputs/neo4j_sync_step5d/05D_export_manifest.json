@@ -1,0 +1,25 @@
+{
+  "stage": "phase4_step5d_metadata_export",
+  "created_at_utc": "2026-11-03T07:52:02.136674+00:00",
+  "status": "prepared_not_imported",
+  "chroma_collection": "diabetes_kb_step3_e5small_v1",
+  "source_snapshot_sha256": "cc064ec7187192c999418051cb2125a0510412843f8d0908e3d6842e4a71c7cd",
+  "chroma_record_count": 66,
+  "counts_by_source": {
+    "CDC-T2D-001": 4,
+    "CDC-RISK-002": 3,
+    "NIDDK-DIAG-003": 19,
+    "NIDDK-T2D-004": 11,
+    "WHO-DIAB-005": 5,
+    "LC-HBA1C-006": 11,
+    "LC-STAGES-007": 13
+  },
+  "cypher_sha256": "843f747464b060a4329fa08978518512e345b80aa4891eb4184e059b272db89f",
+  "cypher_file": "C:\\Users\\ThinkPad\\Multi-Agent_Du_doan_benh_tieu_duong\\Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau\\Giai-doan-4-Buoc-2-Jupyter-Document-Preparation\\data\\outputs\\neo4j_sync_step5d\\05D_import_66_chunks.cypher",
+  "contains_document_text": false,
+  "contains_embeddings": false,
+  "neo4j_connection_attempted": false,
+  "chroma_modified": false,
+  "medical_claims_approved": 0,
+  "rights_independently_verified": false
+}
