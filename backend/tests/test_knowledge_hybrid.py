@@ -234,3 +234,67 @@ def test_canonical_diabetes_kg_json_exists_and_has_no_personal_paths():
     assert "CDC-T2D-001" in raw
     assert "LC-STAGES-007" in raw
 
+
+def test_custom_ingested_doc_remains_searchable_when_another_source_is_disabled_and_active_ids_none(tmp_path):
+    svc = HybridKnowledgeService(
+        chroma_dir=tmp_path / "chroma",
+        kg_mirror_path=tmp_path / "diabetes_kg.json",
+        use_lightweight_embedder=True,
+    )
+    svc.seed_default_sources_if_empty()
+    svc.ingest_document(
+        source_id="CUSTOM-DOC-1",
+        title="Vietnam Clinical Protocol",
+        publisher="Local Endocrine Clinic",
+        source_url="https://clinic.local/protocol",
+        language="vi",
+        text=(
+            "## Hướng dẫn xylitol nội bộ\n"
+            "Bệnh nhân tiểu đường cần theo dõi chỉ số ketone và đường huyết mao mạch đặc biệt."
+        ),
+    )
+    svc.set_source_active("LC-HBA1C-006", False)
+
+    bundle = svc.retrieve(
+        "ketone đường huyết mao mạch xylitol",
+        active_source_ids=None,
+        top_k=6,
+        min_score=0.2,
+    )
+    assert bundle.has_relevant_evidence
+    assert any(c.source_id == "CUSTOM-DOC-1" for c in bundle.citations)
+    assert all(c.source_id != "LC-HBA1C-006" for c in bundle.citations)
+    for rel in bundle.kg_relations:
+        assert "LC-HBA1C-006" not in rel.source_ids
+
+
+def test_reingest_existing_source_clears_orphaned_trailing_chunks(tmp_path):
+    svc = HybridKnowledgeService(
+        chroma_dir=tmp_path / "chroma",
+        kg_mirror_path=tmp_path / "diabetes_kg.json",
+        use_lightweight_embedder=True,
+    )
+    long_v1 = " ".join(["HbA1c và kiểm soát đường huyết dài hạn."] * 60)
+    chunks_v1 = svc.ingest_document(
+        source_id="CUSTOM-UPD-1",
+        title="Guideline v1",
+        publisher="Clinic",
+        source_url=None,
+        language="vi",
+        text=f"## Mục A\n{long_v1}",
+    )
+    assert len(chunks_v1) >= 3
+    assert svc.rag_store.count_chunks() == len(chunks_v1)
+
+    chunks_v2 = svc.ingest_document(
+        source_id="CUSTOM-UPD-1",
+        title="Guideline v2",
+        publisher="Clinic",
+        source_url=None,
+        language="vi",
+        text="## Mục mới\nBản cập nhật ngắn gọn về HbA1c tiền tiểu đường.",
+    )
+    assert len(chunks_v2) == 1
+    assert svc.rag_store.count_chunks() == 1
+
+

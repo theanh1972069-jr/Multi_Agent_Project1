@@ -66,7 +66,13 @@ class HybridKnowledgeService:
         self._inactive_source_ids: set[str] = set()
         self._deleted_source_ids: set[str] = set()
 
-    def _effective_active_ids(self, active_source_ids: set[str] | None) -> set[str] | None:
+    def _effective_rag_active_ids(self, active_source_ids: set[str] | None) -> set[str] | None:
+        if active_source_ids is None:
+            return None
+        blocked = self._inactive_source_ids | self._deleted_source_ids
+        return {sid for sid in active_source_ids if sid not in blocked}
+
+    def _effective_kg_active_ids(self, active_source_ids: set[str] | None) -> set[str] | None:
         blocked = self._inactive_source_ids | self._deleted_source_ids
         if active_source_ids is not None:
             return {sid for sid in active_source_ids if sid not in blocked}
@@ -114,9 +120,10 @@ class HybridKnowledgeService:
         language: str,
         text: str,
     ) -> list[dict]:
-        """Chunk and embed a document into ChromaDB as active."""
+        """Chunk and embed a document into ChromaDB as active, replacing prior chunks."""
         self._inactive_source_ids.discard(source_id)
         self._deleted_source_ids.discard(source_id)
+        self.rag_store.delete_source(source_id)
 
         chunks = chunk_text(text, source_id=source_id, chunk_size=650, overlap=100)
         enriched = [
@@ -151,7 +158,7 @@ class HybridKnowledgeService:
 
     def get_graph_payload(self, active_source_ids: set[str] | None = None) -> dict:
         """Return Diabetes Knowledge Graph nodes and edges filtered to active sources."""
-        effective_ids = self._effective_active_ids(active_source_ids)
+        effective_ids = self._effective_kg_active_ids(active_source_ids)
         return self.kg_store.get_graph_payload(active_source_ids=effective_ids)
 
     def retrieve(
@@ -162,11 +169,11 @@ class HybridKnowledgeService:
         min_score: float = 0.25,
     ) -> EvidenceBundle:
         """Retrieve relevant RAG citations (sanitized) and matching KG relations."""
-        effective_ids = self._effective_active_ids(active_source_ids)
+        rag_active_ids = self._effective_rag_active_ids(active_source_ids)
         raw_hits = self.rag_store.query(
             query,
             top_k=top_k,
-            active_source_ids=effective_ids,
+            active_source_ids=rag_active_ids,
         )
 
         filtered_hits = [hit for hit in raw_hits if float(hit["score"]) >= min_score]
@@ -186,9 +193,10 @@ class HybridKnowledgeService:
                 )
             )
 
+        kg_active_ids = self._effective_kg_active_ids(active_source_ids)
         kg_relations, kg_source = self.kg_store.query_relations(
             query,
-            active_source_ids=effective_ids,
+            active_source_ids=kg_active_ids,
             limit=8,
         )
 
