@@ -69,6 +69,7 @@ _PRESCRIPTION_PATTERNS: tuple[re.Pattern[str], ...] = tuple(
         r"\b(?:nen )?dung thuoc nao\b",
         r"\bthuoc nao (?:de )?(?:tri|chua|khoi|ha duong)\b",
         r"\b(?:metformin|glimepiride|gliclazide|insulin|sitagliptin|empagliflozin|dapagliflozin|liraglutide|semaglutide)\b.{0,35}\b(?:bao nhieu|lieu|don vi|mg|ui|iu|uong|tiem)\b",
+        r"\b(?:bao nhieu|lieu|don vi|mg|ui|iu|vien)\b.{0,35}\b(?:metformin|glimepiride|gliclazide|insulin|sitagliptin|empagliflozin|dapagliflozin|liraglutide|semaglutide)\b",
         r"\b(?:prescribe|prescription|titrate)\b.{0,35}\b(?:medication|medicine|drug|insulin|metformin|glimepiride|gliclazide|dose|dosage)\b",
         r"\b(?:metformin|glimepiride|gliclazide|insulin)\b.{0,30}\b(?:dose|dosage|units?|mg)\b",
         r"\b(?:how much insulin|increase my insulin|decrease my insulin|change my dose|what medication should i take)\b",
