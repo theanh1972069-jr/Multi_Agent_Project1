@@ -1,0 +1,21 @@
+fastapi
+uvicorn
+pydantic
+pydantic-settings
+sqlalchemy
+alembic
+psycopg[binary]
+langgraph
+scikit-learn==1.8.0
+pandas
+joblib
+chromadb
+sentence-transformers
+pypdf
+bcrypt
+python-jose[cryptography]
+python-multipart
+httpx
+pytest
+# Optional: uncomment to connect to a live Neo4j instance
+# neo4j>=5.20

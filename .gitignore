@@ -4,3 +4,11 @@
 **/.pytest_cache/
 **/.mypy_cache/
 Multi_Agent_Project1/
+.env
+*.db
+*.sqlite3
+data/chroma_kb/
+data/uploads/
+frontend/node_modules/
+frontend/dist/
+Neo4j-*.txt
