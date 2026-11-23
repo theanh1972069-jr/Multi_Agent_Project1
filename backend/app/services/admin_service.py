@@ -32,6 +32,10 @@ from backend.app.services import serialize_agent_steps
 
 ALLOWED_DOCUMENT_EXTENSIONS: frozenset[str] = frozenset({".txt", ".md", ".pdf"})
 MAX_UPLOAD_BYTES: int = 5 * 1024 * 1024
+MAX_TITLE_LENGTH: int = 512
+MAX_PUBLISHER_LENGTH: int = 255
+MAX_LANGUAGE_LENGTH: int = 16
+MAX_SOURCE_URL_LENGTH: int = 1024
 _SOURCE_ID_RE = re.compile(r"[^A-Za-z0-9_-]+")
 
 
@@ -167,6 +171,30 @@ def upload_and_ingest_document(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Title and publisher are required",
         )
+    if len(cleaned_title) > MAX_TITLE_LENGTH:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Title exceeds maximum length of {MAX_TITLE_LENGTH} characters",
+        )
+    if len(cleaned_publisher) > MAX_PUBLISHER_LENGTH:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Publisher exceeds maximum length of {MAX_PUBLISHER_LENGTH} characters",
+        )
+
+    cleaned_lang = (language.strip() or "vi").lower()
+    if len(cleaned_lang) > MAX_LANGUAGE_LENGTH:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Language exceeds maximum length of {MAX_LANGUAGE_LENGTH} characters",
+        )
+
+    cleaned_url = source_url.strip() if source_url and source_url.strip() else None
+    if cleaned_url is not None and len(cleaned_url) > MAX_SOURCE_URL_LENGTH:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"source_url exceeds maximum length of {MAX_SOURCE_URL_LENGTH} characters",
+        )
 
     filename = Path(file.filename or "").name
     ext = Path(filename).suffix.lower()
@@ -176,7 +204,7 @@ def upload_and_ingest_document(
             detail="Unsupported file extension. Only .txt, .md, and .pdf files are allowed.",
         )
 
-    raw_bytes = file.file.read()
+    raw_bytes = file.file.read(MAX_UPLOAD_BYTES + 1)
     if not raw_bytes:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -221,50 +249,53 @@ def upload_and_ingest_document(
             detail="Uploaded file contains no readable text",
         )
 
-    cleaned_url = source_url.strip() if source_url and source_url.strip() else None
-    cleaned_lang = (language.strip() or "vi").lower()
-
-    chunks = knowledge_service.ingest_document(
-        source_id=effective_source_id,
-        title=cleaned_title,
-        publisher=cleaned_publisher,
-        source_url=cleaned_url,
-        language=cleaned_lang,
-        text=extracted_text,
-    )
-    if not chunks:
-        dest_path.unlink(missing_ok=True)
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Uploaded file produced no valid text chunks",
+    try:
+        chunks = knowledge_service.ingest_document(
+            source_id=effective_source_id,
+            title=cleaned_title,
+            publisher=cleaned_publisher,
+            source_url=cleaned_url,
+            language=cleaned_lang,
+            text=extracted_text,
         )
-
-    doc = KnowledgeDocument(
-        source_id=effective_source_id,
-        title=cleaned_title,
-        publisher=cleaned_publisher,
-        source_url=cleaned_url,
-        language=cleaned_lang,
-        file_path=str(dest_path),
-        status="active",
-        chunk_count=len(chunks),
-        uploaded_by=current_user.id,
-    )
-    for idx, chunk in enumerate(chunks):
-        preview = str(chunk.get("content_preview") or chunk.get("text") or "")[:512]
-        token_est = int(chunk.get("token_estimate") or max(1, len(preview.split())))
-        doc.chunks.append(
-            KnowledgeChunk(
-                chunk_index=int(chunk.get("chunk_index", idx)),
-                chroma_id=str(chunk["chunk_id"]),
-                content_preview=preview,
-                token_estimate=token_est,
+        if not chunks:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Uploaded file produced no valid text chunks",
             )
-        )
 
-    db.add(doc)
-    db.commit()
-    db.refresh(doc)
+        doc = KnowledgeDocument(
+            source_id=effective_source_id,
+            title=cleaned_title,
+            publisher=cleaned_publisher,
+            source_url=cleaned_url,
+            language=cleaned_lang,
+            file_path=str(dest_path),
+            status="active",
+            chunk_count=len(chunks),
+            uploaded_by=current_user.id,
+        )
+        for idx, chunk in enumerate(chunks):
+            preview = str(chunk.get("content_preview") or chunk.get("text") or "")[:512]
+            token_est = int(chunk.get("token_estimate") or max(1, len(preview.split())))
+            doc.chunks.append(
+                KnowledgeChunk(
+                    chunk_index=int(chunk.get("chunk_index", idx)),
+                    chroma_id=str(chunk["chunk_id"]),
+                    content_preview=preview,
+                    token_estimate=token_est,
+                )
+            )
+
+        db.add(doc)
+        db.commit()
+        db.refresh(doc)
+    except Exception:
+        db.rollback()
+        knowledge_service.delete_source(effective_source_id)
+        dest_path.unlink(missing_ok=True)
+        raise
+
     return _to_admin_document_out(doc)
 
 

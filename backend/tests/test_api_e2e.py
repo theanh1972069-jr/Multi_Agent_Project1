@@ -1,8 +1,16 @@
 from __future__ import annotations
 
+import pytest
 from sqlalchemy import select
+from sqlalchemy.orm import Session
 
-from backend.app.db.models import AgentRun, AgentStep, HealthAssessment, PredictionResult
+from backend.app.db.models import (
+    AgentRun,
+    AgentStep,
+    HealthAssessment,
+    KnowledgeDocument,
+    PredictionResult,
+)
 
 
 def _login(client, email: str, password: str) -> dict[str, str]:
@@ -356,3 +364,92 @@ def test_admin_upload_toggle_delete_and_invalid_file_rejection(client):
         headers=admin_h,
         json={"status": "active"},
     )
+
+
+def test_admin_upload_metadata_limits_and_rollback_cleanup(client, monkeypatch):
+    admin_h = _login(client, "admin@demo.local", "DemoAdmin123!")
+
+    # Reject metadata exceeding KnowledgeDocument column limits with HTTP 400
+    assert (
+        client.post(
+            "/api/v1/admin/documents/upload",
+            headers=admin_h,
+            data={"title": "T" * 513, "publisher": "Bo Y Te"},
+            files={"file": ("ok.md", b"# Heading\nValid content", "text/markdown")},
+        ).status_code
+        == 400
+    )
+    assert (
+        client.post(
+            "/api/v1/admin/documents/upload",
+            headers=admin_h,
+            data={"title": "Valid", "publisher": "P" * 256},
+            files={"file": ("ok.md", b"# Heading\nValid content", "text/markdown")},
+        ).status_code
+        == 400
+    )
+    assert (
+        client.post(
+            "/api/v1/admin/documents/upload",
+            headers=admin_h,
+            data={"title": "Valid", "publisher": "Bo Y Te", "language": "v" * 17},
+            files={"file": ("ok.md", b"# Heading\nValid content", "text/markdown")},
+        ).status_code
+        == 400
+    )
+    assert (
+        client.post(
+            "/api/v1/admin/documents/upload",
+            headers=admin_h,
+            data={
+                "title": "Valid",
+                "publisher": "Bo Y Te",
+                "source_url": "https://example.com/" + "a" * 1020,
+            },
+            files={"file": ("ok.md", b"# Heading\nValid content", "text/markdown")},
+        ).status_code
+        == 400
+    )
+
+    # Simulate DB commit failure after ChromaDB ingestion and verify rollback cleanup
+    original_commit = Session.commit
+
+    def _failing_commit(self):
+        raise RuntimeError("Simulated DB commit failure")
+
+    monkeypatch.setattr(Session, "commit", _failing_commit)
+    with pytest.raises(RuntimeError, match="Simulated DB commit failure"):
+        client.post(
+            "/api/v1/admin/documents/upload",
+            headers=admin_h,
+            data={
+                "title": "Rollback Test",
+                "publisher": "Bo Y Te",
+                "source_id": "ROLLBACK-TEST-01",
+            },
+            files={
+                "file": (
+                    "rollback.md",
+                    b"## Test\nThong tin tam thoi de kiem tra rollback.",
+                    "text/markdown",
+                )
+            },
+        )
+    monkeypatch.setattr(Session, "commit", original_commit)
+
+    upload_dir = client.app.state.settings.upload_dir
+    assert not (upload_dir / "ROLLBACK-TEST-01.md").exists()
+
+    stored = client.app.state.knowledge_service.rag_store._collection.get(
+        where={"source_id": "ROLLBACK-TEST-01"},
+        include=[],
+    )
+    assert len(stored.get("ids") or []) == 0
+
+    with client.app.state.session_factory() as db:
+        row = db.scalar(
+            select(KnowledgeDocument).where(
+                KnowledgeDocument.source_id == "ROLLBACK-TEST-01"
+            )
+        )
+        assert row is None
