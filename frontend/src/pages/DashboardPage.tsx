@@ -66,13 +66,20 @@ export function DashboardPage() {
       setLoading(true);
       setError(null);
       try {
-        const [healthRes, assessmentsRes] = await Promise.all([
+        const [healthRes, assessmentsRes] = await Promise.allSettled([
           apiClient.getHealth(),
           apiClient.listAssessments(),
         ]);
         if (!active) return;
-        setHealth(healthRes);
-        setAssessments(assessmentsRes);
+        if (healthRes.status === 'fulfilled') {
+          setHealth(healthRes.value);
+        }
+        if (assessmentsRes.status === 'fulfilled') {
+          setAssessments(assessmentsRes.value);
+        }
+        if (healthRes.status === 'rejected' || assessmentsRes.status === 'rejected') {
+          setError('Không thể tải đầy đủ dữ liệu tổng quan từ máy chủ.');
+        }
       } catch {
         if (!active) return;
         setError('Không thể tải đầy đủ dữ liệu tổng quan từ máy chủ.');

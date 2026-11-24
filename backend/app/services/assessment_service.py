@@ -14,6 +14,7 @@ from backend.app.schemas.assessment import AssessmentOut
 from backend.app.services import (
     get_active_source_ids,
     get_owned_assessment,
+    infer_run_flags_from_steps,
     persist_agent_run,
     serialize_agent_steps,
     serialize_prediction_row,
@@ -29,8 +30,8 @@ def _to_assessment_out(
     predictor: NHANESPredictor | None = None,
     prediction_override: dict[str, Any] | None = None,
     kg_relations: list[dict[str, Any]] | None = None,
-    llm_used: bool = False,
-    llm_fallback: bool = False,
+    llm_used: bool | None = None,
+    llm_fallback: bool | None = None,
 ) -> AssessmentOut:
     prediction_payload = (
         prediction_override
@@ -38,6 +39,7 @@ def _to_assessment_out(
         else serialize_prediction_row(assessment.prediction_result, predictor=predictor)
     )
     steps = serialize_agent_steps(list(agent_run.steps)) if agent_run is not None else []
+    _inferred_kg, inferred_llm_used, inferred_llm_fallback = infer_run_flags_from_steps(steps)
     return AssessmentOut(
         id=assessment.id,
         request_id=assessment.request_id,
@@ -50,8 +52,8 @@ def _to_assessment_out(
         citations=list(assessment.citations_json or []),
         kg_relations=list(kg_relations or []),
         limitations=list(assessment.limitations_json or []),
-        llm_used=llm_used,
-        llm_fallback=llm_fallback,
+        llm_used=llm_used if llm_used is not None else inferred_llm_used,
+        llm_fallback=llm_fallback if llm_fallback is not None else inferred_llm_fallback,
         agent_steps=steps,
         total_latency_ms=agent_run.total_latency_ms if agent_run is not None else 0,
         error_code=agent_run.error_code if agent_run is not None else None,

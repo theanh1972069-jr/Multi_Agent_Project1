@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import copy
 import hashlib
 import json
 import math
@@ -54,8 +55,8 @@ class NHANESPredictor:
 
     @property
     def manifest(self) -> dict[str, Any]:
-        """Return a shallow copy of the verified model manifest dictionary."""
-        return dict(self._manifest)
+        """Return a deep copy of the verified model manifest dictionary."""
+        return copy.deepcopy(self._manifest)
 
     def predict(self, features: dict[str, float | int | None]) -> dict[str, Any]:
         """Score a single profile and attach local feature contributions and screening disclaimer."""
@@ -79,15 +80,16 @@ class NHANESPredictor:
         thresholds = self._manifest["thresholds"]
         t_low = float(thresholds["low"])
         t_high = float(thresholds["high"])
+        score_rounded = round(score, 6)
 
-        if score < t_low:
+        if score_rounded < t_low:
             risk_band = "low"
-        elif score < t_high:
+        elif score_rounded < t_high:
             risk_band = "moderate"
         else:
             risk_band = "elevated"
 
-        predicted_label = int(score >= t_low)
+        predicted_label = int(score_rounded >= t_low)
         contributions = compute_local_contributions(self._pipeline, row_df, features)
 
         return {
@@ -96,7 +98,7 @@ class NHANESPredictor:
             "model_sha256": self._actual_sha256,
             "threshold_low": t_low,
             "threshold_high": t_high,
-            "model_score": round(score, 6),
+            "model_score": score_rounded,
             "predicted_label": predicted_label,
             "risk_band": risk_band,
             "feature_contributions": contributions,

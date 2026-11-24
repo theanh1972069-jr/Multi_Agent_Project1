@@ -55,6 +55,32 @@ def serialize_agent_steps(steps: list[AgentStep] | list[dict[str, Any]]) -> list
     return out
 
 
+def infer_run_flags_from_steps(
+    steps: list[AgentStepOut],
+) -> tuple[str | None, bool, bool]:
+    """Infer `(kg_source, llm_used, llm_fallback)` from persisted AgentStep summaries."""
+    kg_source: str | None = None
+    llm_used = False
+    llm_fallback = False
+
+    for step in steps:
+        if step.agent_name == "knowledge":
+            if "(neo4j)" in step.summary:
+                kg_source = "neo4j"
+            elif "(local_mirror)" in step.summary:
+                kg_source = "local_mirror"
+        elif step.agent_name == "consultation":
+            if step.summary.startswith("Generated Vietnamese consultation response"):
+                llm_used = True
+                llm_fallback = False
+            elif "template fallback" in step.summary.lower():
+                llm_used = False
+                llm_fallback = True
+
+    return kg_source, llm_used, llm_fallback
+
+
+
 def persist_agent_run(
     db: Session,
     *,

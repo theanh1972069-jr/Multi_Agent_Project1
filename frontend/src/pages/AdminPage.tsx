@@ -111,6 +111,11 @@ export function AdminPage() {
       return;
     }
 
+    if (selectedFile.size > 5 * 1024 * 1024) {
+      setError('Kích thước tệp vượt quá giới hạn tối đa 5 MB.');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('title', title.trim());
     formData.append('publisher', publisher.trim());

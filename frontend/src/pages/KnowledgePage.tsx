@@ -302,10 +302,14 @@ export function KnowledgePage() {
         if (e.source === selectedNodeId) neighborIds.add(e.target);
         if (e.target === selectedNodeId) neighborIds.add(e.source);
       }
-      return nodes.filter((n) => neighborIds.has(n.id));
+      return nodes.filter(
+        (n) =>
+          neighborIds.has(n.id) &&
+          (n.id === selectedNodeId || filteredNodeIds.has(n.id)),
+      );
     }
     return filteredNodes;
-  }, [focusNeighborsOnly, selectedNodeId, edges, nodes, filteredNodes]);
+  }, [focusNeighborsOnly, selectedNodeId, edges, nodes, filteredNodes, filteredNodeIds]);
 
   const { positioned, visibleEdges, svgHeight } = useMemo(
     () => computeNodePositions(graphNodesForSvg, edges, selectedNodeId, focusNeighborsOnly),

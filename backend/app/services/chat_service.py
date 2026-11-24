@@ -21,6 +21,7 @@ from backend.app.schemas.chat import (
 from backend.app.services import (
     get_active_source_ids,
     get_owned_assessment,
+    infer_run_flags_from_steps,
     persist_agent_run,
     serialize_agent_steps,
     serialize_prediction_row,
@@ -59,10 +60,11 @@ def _to_message_out(
     *,
     agent_run: AgentRun | None = None,
     kg_source: str | None = None,
-    llm_used: bool = False,
-    llm_fallback: bool = False,
+    llm_used: bool | None = None,
+    llm_fallback: bool | None = None,
 ) -> ChatMessageOut:
     steps = serialize_agent_steps(list(agent_run.steps)) if agent_run is not None else []
+    inferred_kg, inferred_llm_used, inferred_llm_fallback = infer_run_flags_from_steps(steps)
     return ChatMessageOut(
         id=msg.id,
         session_id=msg.session_id,
@@ -72,11 +74,11 @@ def _to_message_out(
         intent=msg.intent,
         citations=list(msg.citations_json or []),
         kg_relations=list(msg.kg_relations_json or []),
-        kg_source=kg_source,
+        kg_source=kg_source if kg_source is not None else inferred_kg,
         redirect_to_assessment=(msg.intent == "risk_assessment_redirect"),
         safety_flag=msg.safety_flag,
-        llm_used=llm_used,
-        llm_fallback=llm_fallback,
+        llm_used=llm_used if llm_used is not None else inferred_llm_used,
+        llm_fallback=llm_fallback if llm_fallback is not None else inferred_llm_fallback,
         agent_steps=steps,
         total_latency_ms=agent_run.total_latency_ms if agent_run is not None else 0,
         created_at=msg.created_at,

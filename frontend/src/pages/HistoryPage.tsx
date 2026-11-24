@@ -62,6 +62,17 @@ export function HistoryPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!selected) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setSelected(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selected]);
+
   const stats = useMemo(() => {
     const completed = assessments.filter((a) => a.status === 'completed' && a.prediction);
     const outOfScope = assessments.filter((a) => a.status !== 'completed' || !a.prediction);
@@ -274,8 +285,12 @@ export function HistoryPage() {
           role="dialog"
           aria-modal="true"
           aria-label="Chi tiết kết quả đánh giá nguy cơ"
+          onClick={() => setSelected(null)}
         >
-          <div className="flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 shadow-2xl">
+          <div
+            className="flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-4">
               <div className="flex flex-wrap items-center gap-3">
