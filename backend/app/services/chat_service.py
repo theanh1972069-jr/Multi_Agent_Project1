@@ -153,7 +153,11 @@ def send_chat_message(
     """Persist user message, run multi-agent chat pipeline, and return assistant reply."""
     session = _get_owned_session(db, session_id, current_user.id)
 
-    effective_assessment_id = payload.linked_assessment_id or session.linked_assessment_id
+    if "linked_assessment_id" in payload.model_fields_set:
+        effective_assessment_id = payload.linked_assessment_id
+    else:
+        effective_assessment_id = session.linked_assessment_id
+
     linked_assessment_dict: dict[str, Any] | None = None
     if effective_assessment_id is not None:
         assessment = get_owned_assessment(db, effective_assessment_id, current_user.id)
@@ -165,6 +169,9 @@ def send_chat_message(
                 assessment.prediction_result, predictor=predictor
             ),
         }
+
+    if "linked_assessment_id" in payload.model_fields_set:
+        session.linked_assessment_id = effective_assessment_id
 
     prior_messages = list(
         db.scalars(

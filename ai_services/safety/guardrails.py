@@ -104,12 +104,16 @@ _OUTPUT_DIAGNOSIS_PATTERNS: tuple[re.Pattern[str], ...] = tuple(
     re.compile(p)
     for p in (
         r"\bban\s+(?:chac chan|da|dang)\s+(?:da\s+)?(?:mac|bi)\s+(?:benh\s+)?(?:tieu duong|dai thao duong)\b",
-        r"(?<!khong\s)(?<!khong phai\s)\bchan doan xac dinh\b",
         r"\bket luan ban\s+(?:mac|bi)\b",
         r"\byou\s+(?:definitely|certainly|clearly)\s+have\s+diabetes\b",
         r"\byou\s+are\s+diagnosed\s+with\s+diabetes\b",
         r"\bi\s+diagnose\s+you\s+with\b",
     )
+)
+
+_DIAGNOSIS_CLAIM_PHRASE = re.compile(r"\bchan doan xac dinh\b")
+_CLAUSE_NEGATION_RE = re.compile(
+    r"\b(?:khong(?:\s+(?:phai|thay the|dung de|nham|mang tinh))?|chua)\b"
 )
 
 _OUTPUT_DOSING_PATTERNS: tuple[re.Pattern[str], ...] = tuple(
@@ -143,6 +147,16 @@ def _normalize_ascii(text: str) -> str:
 
 def _matches_any(normalized: str, patterns: tuple[re.Pattern[str], ...]) -> bool:
     return any(pattern.search(normalized) for pattern in patterns)
+
+
+def _has_unnegated_diagnosis_claim(normalized: str) -> bool:
+    """Return True if 'chan doan xac dinh' appears without preceding clause negation."""
+    for match in _DIAGNOSIS_CLAIM_PHRASE.finditer(normalized):
+        window = normalized[max(0, match.start() - 40) : match.start()]
+        clause_prefix = re.split(r"[.!?;:\n,]", window)[-1]
+        if not _CLAUSE_NEGATION_RE.search(clause_prefix):
+            return True
+    return False
 
 
 def check_input_safety(text: str) -> SafetyCheckResult:
@@ -188,7 +202,9 @@ def check_output_safety(text: str) -> tuple[bool, list[str]]:
     normalized = _normalize_ascii(text or "")
     reasons: list[str] = []
 
-    if _matches_any(normalized, _OUTPUT_DIAGNOSIS_PATTERNS):
+    if _matches_any(normalized, _OUTPUT_DIAGNOSIS_PATTERNS) or _has_unnegated_diagnosis_claim(
+        normalized
+    ):
         reasons.append("Output contains an affirmative diagnostic certainty claim.")
 
     if _matches_any(normalized, _OUTPUT_DOSING_PATTERNS):

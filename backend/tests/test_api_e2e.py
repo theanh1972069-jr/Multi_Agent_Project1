@@ -198,6 +198,17 @@ def test_chat_with_linked_assessment_and_knowledge_graph(client):
     assert safe.json()["intent"] == "safety_guardrail"
     assert safe.json()["safety_flag"] is not None
 
+    # Detaching linked_assessment_id via explicit null updates the session in DB
+    detached = client.post(
+        f"/api/v1/chat/sessions/{sid}/messages",
+        headers=u1,
+        json={"content": "Tiền tiểu đường là gì?", "linked_assessment_id": None},
+    )
+    assert detached.status_code == 200, detached.text
+    sessions_after_detach = client.get("/api/v1/chat/sessions", headers=u1).json()
+    target_session = next(item for item in sessions_after_detach if item["id"] == sid)
+    assert target_session["linked_assessment_id"] is None
+
 
 def test_admin_upload_toggle_delete_and_invalid_file_rejection(client):
     user_h = _login(client, "user@demo.local", "DemoUser123!")

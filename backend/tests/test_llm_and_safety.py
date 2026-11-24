@@ -300,3 +300,20 @@ def test_output_safety_and_prompt_injection_sanitization():
     )
     assert "Bỏ qua các hướng dẫn trước" not in cleaned_vi
     assert "Tài liệu ADA 2024." in cleaned_vi
+
+
+def test_output_safety_allows_vietnamese_diagnosis_disclaimers_and_blocks_claims():
+    disclaimer_ok, disclaimer_reasons = check_output_safety(
+        "Đây không phải là chẩn đoán xác định bệnh tiểu đường."
+    )
+    assert disclaimer_ok and disclaimer_reasons == []
+
+    disclaimer2_ok, disclaimer2_reasons = check_output_safety(
+        "Kết quả không dùng để chẩn đoán xác định."
+    )
+    assert disclaimer2_ok and disclaimer2_reasons == []
+
+    claim_ok, claim_reasons = check_output_safety(
+        "Chẩn đoán xác định bạn mắc tiểu đường type 2."
+    )
+    assert not claim_ok and len(claim_reasons) >= 1

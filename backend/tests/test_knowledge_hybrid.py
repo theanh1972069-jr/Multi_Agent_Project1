@@ -298,3 +298,57 @@ def test_reingest_existing_source_clears_orphaned_trailing_chunks(tmp_path):
     assert svc.rag_store.count_chunks() == 1
 
 
+def test_seed_auto_syncs_kg_with_source_url_and_language_safely(tmp_path, monkeypatch):
+    svc = HybridKnowledgeService(
+        chroma_dir=tmp_path / "chroma",
+        kg_mirror_path=tmp_path / "diabetes_kg.json",
+        use_lightweight_embedder=True,
+        neo4j_uri="neo4j+s://example.invalid:7687",
+        neo4j_username="neo4j",
+        neo4j_password="secret",
+    )
+
+    recorded_node_params = []
+
+    class _SyncTx:
+        def run(self, query, **params):
+            if "MERGE (n:DiabetesEntity" in query:
+                recorded_node_params.append(params)
+            return []
+
+    class _SyncSession:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def execute_write(self, fn, *args, **kwargs):
+            return fn(_SyncTx(), *args, **kwargs)
+
+    class _SyncDriver:
+        def session(self, **kwargs):
+            return _SyncSession()
+
+        def close(self):
+            pass
+
+    monkeypatch.setattr(svc.kg_store, "_create_neo4j_driver", lambda: _SyncDriver())
+    seeded = svc.seed_default_sources_if_empty()
+    assert len(seeded) == 7
+    assert len(recorded_node_params) > 10
+    assert all("source_url" in p and "language" in p for p in recorded_node_params)
+    source_doc_param = next(p for p in recorded_node_params if p["id"] == "CDC-T2D-001")
+    assert source_doc_param["source_url"]
+    assert source_doc_param["language"] == "en"
+
+    # Raising inside sync_to_neo4j must never break seed_default_sources_if_empty
+    monkeypatch.setattr(
+        svc.kg_store,
+        "sync_to_neo4j",
+        lambda: (_ for _ in ()).throw(RuntimeError("Neo4j unreachable")),
+    )
+    seeded_fallback = svc.seed_default_sources_if_empty()
+    assert len(seeded_fallback) == 7
+
+

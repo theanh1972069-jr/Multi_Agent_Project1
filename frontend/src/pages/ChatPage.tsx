@@ -43,6 +43,12 @@ const SAFETY_FLAG_META: Record<
       'Nếu bạn hoặc người thân đang có triệu chứng cấp tính nghiêm trọng, hãy gọi cấp cứu 115 hoặc đến cơ sở y tế gần nhất ngay lập tức.',
     isEmergency: true,
   },
+  prescription: {
+    title: 'Giới hạn an toàn: Không kê đơn thuốc',
+    description:
+      'Hệ thống không cung cấp chỉ định dùng thuốc, thay đổi liều insulin hay phác đồ điều trị. Vui lòng trao đổi trực tiếp với bác sĩ chuyên khoa.',
+    isEmergency: false,
+  },
   prescription_request: {
     title: 'Giới hạn an toàn: Không kê đơn thuốc',
     description:

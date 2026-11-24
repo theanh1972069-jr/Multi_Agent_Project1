@@ -25,7 +25,8 @@ services:
     volumes:
       - ..:/app
     env_file:
-      - ../.env
+      - path: ../.env
+        required: false
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-diabetes}:${POSTGRES_PASSWORD:-diabetes}@postgres:5432/${POSTGRES_DB:-diabetes_app}
     ports:
@@ -35,7 +36,7 @@ services:
         condition: service_healthy
     command: >
       sh -c "pip install --no-cache-dir -r backend/requirements.txt &&
-             uvicorn backend.app.main:app --host 0.0.0.0 --port 8000"
+             uvicorn backend.app.main:create_app --factory --host 0.0.0.0 --port 8000"
 
   frontend:
     image: node:22-alpine
@@ -44,6 +45,8 @@ services:
     working_dir: /app/frontend
     volumes:
       - ..:/app
+    environment:
+      VITE_API_PROXY_TARGET: http://backend:8000
     ports:
       - "5173:5173"
     depends_on:

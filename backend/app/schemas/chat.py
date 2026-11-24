@@ -20,6 +20,14 @@ class ChatSessionCreateRequest(BaseModel):
         cleaned = value.strip()
         return cleaned or "Cuộc trò chuyện mới"
 
+    @field_validator("linked_assessment_id")
+    @classmethod
+    def normalize_linked_assessment_id(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        cleaned = value.strip()
+        return cleaned or None
+
 
 class ChatSessionOut(BaseModel):
     """Chat session metadata returned to its owner."""
@@ -44,6 +52,14 @@ class ChatMessageCreateRequest(BaseModel):
         if not cleaned:
             raise ValueError("content cannot be blank")
         return cleaned
+
+    @field_validator("linked_assessment_id")
+    @classmethod
+    def normalize_linked_assessment_id(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        cleaned = value.strip()
+        return cleaned or None
 
 
 class ChatMessageOut(BaseModel):

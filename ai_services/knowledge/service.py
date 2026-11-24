@@ -109,6 +109,7 @@ class HybridKnowledgeService:
                     "chunk_count": len(chunks),
                 }
             )
+        self.kg_store.sync_if_configured()
         return seeded_meta
 
     def ingest_document(

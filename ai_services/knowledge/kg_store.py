@@ -87,7 +87,9 @@ class DiabetesKGStore:
                     "RETURN n.id AS id, n.label AS label, n.type AS type, "
                     "coalesce(n.source_ids, []) AS source_ids, "
                     "coalesce(n.keywords, []) AS keywords, "
-                    "coalesce(n.description, '') AS description"
+                    "coalesce(n.description, '') AS description, "
+                    "coalesce(n.source_url, '') AS source_url, "
+                    "coalesce(n.language, 'vi') AS language"
                 )
             )
             edge_rows = list(
@@ -131,13 +133,16 @@ class DiabetesKGStore:
                 tx.run(
                     "MERGE (n:DiabetesEntity {id: $id}) "
                     "SET n.label = $label, n.type = $type, n.source_ids = $source_ids, "
-                    "n.keywords = $keywords, n.description = $description",
+                    "n.keywords = $keywords, n.description = $description, "
+                    "n.source_url = $source_url, n.language = $language",
                     id=node["id"],
                     label=node["label"],
                     type=node["type"],
                     source_ids=node.get("source_ids", []),
                     keywords=node.get("keywords", []),
                     description=node.get("description", ""),
+                    source_url=node.get("source_url") or "",
+                    language=node.get("language") or "vi",
                 )
             for edge in edges:
                 rel_type = re.sub(r"[^A-Z0-9_]", "_", str(edge["relation"]).upper())
@@ -169,6 +174,15 @@ class DiabetesKGStore:
                 driver.close()
             except Exception:
                 pass
+
+    def sync_if_configured(self) -> bool:
+        """Best-effort sync of the local mirror into Neo4j when credentials are configured."""
+        if not (self.neo4j_uri and self.neo4j_username and self.neo4j_password):
+            return False
+        try:
+            return self.sync_to_neo4j()
+        except Exception:
+            return False
 
     def health_check(self) -> dict[str, Any]:
         configured = bool(self.neo4j_uri and self.neo4j_username and self.neo4j_password)
