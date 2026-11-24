@@ -99,23 +99,74 @@ export function ChatPage() {
   const [expandedCitations, setExpandedCitations] = useState<Record<string, boolean>>({});
   const [expandedTraces, setExpandedTraces] = useState<Record<string, boolean>>({});
 
+  const initializedRef = useRef(false);
+  const initialQueryAssessmentRef = useRef<string | null>(queryAssessmentId);
   const handledQueryAssessmentRef = useRef<string | null>(null);
+  const messageRequestSeqRef = useRef(0);
+  const skipNextLoadRef = useRef<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const loadMessages = useCallback(async (sessionId: string) => {
+    const reqId = ++messageRequestSeqRef.current;
     setLoadingMessages(true);
     setError(null);
     try {
       const list = await apiClient.listChatMessages(sessionId);
+      if (reqId !== messageRequestSeqRef.current) return;
       setMessages(list);
     } catch (err) {
+      if (reqId !== messageRequestSeqRef.current) return;
       setError(
         err instanceof ApiError ? err.detail : 'Không thể tải lịch sử tin nhắn của phiên tư vấn.',
       );
     } finally {
-      setLoadingMessages(false);
+      if (reqId === messageRequestSeqRef.current) {
+        setLoadingMessages(false);
+      }
     }
   }, []);
+
+  const activateOrCreateSessionForAssessment = useCallback(
+    async (
+      assessmentId: string,
+      sessionList: ChatSessionOut[],
+      assessmentList: AssessmentOut[],
+      isActive: () => boolean,
+    ) => {
+      setSelectedAssessmentId(assessmentId);
+      const existingLinked = sessionList.find(
+        (s) => s.linked_assessment_id === assessmentId,
+      );
+      if (existingLinked) {
+        setActiveSessionId(existingLinked.id);
+        handledQueryAssessmentRef.current = assessmentId;
+        return;
+      }
+      if (handledQueryAssessmentRef.current === assessmentId) {
+        return;
+      }
+      handledQueryAssessmentRef.current = assessmentId;
+      try {
+        const linkedAssessment = assessmentList.find((a) => a.id === assessmentId);
+        const title = linkedAssessment
+          ? `Tư vấn kết quả (${formatDateTimeVi(linkedAssessment.created_at)})`
+          : 'Tư vấn kết quả sàng lọc';
+        const created = await apiClient.createChatSession({
+          title,
+          linked_assessment_id: assessmentId,
+        });
+        if (!isActive()) return;
+        setSessions((prev) => [created, ...prev]);
+        setActiveSessionId(created.id);
+      } catch {
+        if (!isActive()) return;
+        if (sessionList.length > 0) {
+          setActiveSessionId(sessionList[0].id);
+        }
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
     let active = true;
@@ -132,39 +183,20 @@ export function ChatPage() {
         setSessions(sessionList);
         setAssessments(assessmentList);
 
-        if (queryAssessmentId) {
-          setSelectedAssessmentId(queryAssessmentId);
-          const existingLinked = sessionList.find(
-            (s) => s.linked_assessment_id === queryAssessmentId,
+        const initialAssessmentId = initialQueryAssessmentRef.current;
+        if (initialAssessmentId) {
+          await activateOrCreateSessionForAssessment(
+            initialAssessmentId,
+            sessionList,
+            assessmentList,
+            () => active,
           );
-          if (existingLinked) {
-            setActiveSessionId(existingLinked.id);
-            handledQueryAssessmentRef.current = queryAssessmentId;
-          } else if (handledQueryAssessmentRef.current !== queryAssessmentId) {
-            handledQueryAssessmentRef.current = queryAssessmentId;
-            try {
-              const linkedAssessment = assessmentList.find((a) => a.id === queryAssessmentId);
-              const title = linkedAssessment
-                ? `Tư vấn kết quả (${formatDateTimeVi(linkedAssessment.created_at)})`
-                : 'Tư vấn kết quả sàng lọc';
-              const created = await apiClient.createChatSession({
-                title,
-                linked_assessment_id: queryAssessmentId,
-              });
-              if (!active) return;
-              setSessions((prev) => [created, ...prev]);
-              setActiveSessionId(created.id);
-            } catch {
-              if (sessionList.length > 0) {
-                setActiveSessionId(sessionList[0].id);
-              }
-            }
-          }
         } else if (sessionList.length > 0) {
           setActiveSessionId(sessionList[0].id);
-          if (sessionList[0].linked_assessment_id) {
-            setSelectedAssessmentId(sessionList[0].linked_assessment_id);
-          }
+          setSelectedAssessmentId(sessionList[0].linked_assessment_id ?? '');
+        }
+        if (active) {
+          initializedRef.current = true;
         }
       } catch (err) {
         if (!active) return;
@@ -181,14 +213,42 @@ export function ChatPage() {
     return () => {
       active = false;
     };
-  }, [queryAssessmentId]);
+  }, [activateOrCreateSessionForAssessment]);
+
+  useEffect(() => {
+    if (!initializedRef.current || !queryAssessmentId) {
+      return;
+    }
+    if (handledQueryAssessmentRef.current === queryAssessmentId) {
+      return;
+    }
+    let active = true;
+    void activateOrCreateSessionForAssessment(
+      queryAssessmentId,
+      sessions,
+      assessments,
+      () => active,
+    );
+    return () => {
+      active = false;
+    };
+  }, [queryAssessmentId, sessions, assessments, activateOrCreateSessionForAssessment]);
 
   useEffect(() => {
     if (!activeSessionId) {
+      messageRequestSeqRef.current += 1;
+      setLoadingMessages(false);
       setMessages([]);
       return;
     }
+    if (skipNextLoadRef.current === activeSessionId) {
+      skipNextLoadRef.current = null;
+      return;
+    }
     void loadMessages(activeSessionId);
+    return () => {
+      messageRequestSeqRef.current += 1;
+    };
   }, [activeSessionId, loadMessages]);
 
   useEffect(() => {
@@ -208,11 +268,7 @@ export function ChatPage() {
   const handleSelectSession = (session: ChatSessionOut) => {
     setError(null);
     setActiveSessionId(session.id);
-    if (session.linked_assessment_id) {
-      setSelectedAssessmentId(session.linked_assessment_id);
-    } else if (!queryAssessmentId) {
-      setSelectedAssessmentId('');
-    }
+    setSelectedAssessmentId(session.linked_assessment_id ?? '');
     if (queryAssessmentId && session.linked_assessment_id !== queryAssessmentId) {
       setSearchParams({}, { replace: true });
     }
@@ -260,6 +316,7 @@ export function ChatPage() {
           title: trimmed.slice(0, 60),
           linked_assessment_id: selectedAssessmentId || null,
         });
+        skipNextLoadRef.current = created.id;
         setSessions((prev) => [created, ...prev]);
         setActiveSessionId(created.id);
         targetSessionId = created.id;
@@ -282,6 +339,7 @@ export function ChatPage() {
             }
           : item,
       );
+      messageRequestSeqRef.current += 1;
       setMessages(merged);
 
       // Refresh session order/timestamps

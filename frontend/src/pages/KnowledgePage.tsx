@@ -127,11 +127,11 @@ function computeNodePositions(
   edges: KnowledgeGraphEdge[],
   selectedId: string | null,
   focusNeighborsOnly: boolean,
-): { positioned: PositionedNode[]; visibleEdges: KnowledgeGraphEdge[] } {
+): { positioned: PositionedNode[]; visibleEdges: KnowledgeGraphEdge[]; svgHeight: number } {
   const width = 920;
-  const height = 520;
 
   if (focusNeighborsOnly && selectedId) {
+    const height = 520;
     const centerNode = nodes.find((n) => n.id === selectedId);
     if (centerNode) {
       const incidentEdges = edges.filter(
@@ -157,7 +157,7 @@ function computeNodePositions(
           y: height / 2 + ry * Math.sin(angle),
         });
       });
-      return { positioned, visibleEdges: incidentEdges };
+      return { positioned, visibleEdges: incidentEdges, svgHeight: height };
     }
   }
 
@@ -167,6 +167,9 @@ function computeNodePositions(
     const colIdx = TYPE_COLUMN_ORDER[node.type] ?? 2;
     columns[colIdx].push(node);
   }
+
+  const maxColCount = Math.max(1, ...columns.map((c) => c.length));
+  const height = Math.max(520, maxColCount * 46 + 84);
 
   const colX = [125, 355, 590, 810];
   const positioned: PositionedNode[] = [];
@@ -188,7 +191,7 @@ function computeNodePositions(
   const visibleEdges = edges.filter(
     (e) => visibleIdSet.has(e.source) && visibleIdSet.has(e.target),
   );
-  return { positioned, visibleEdges };
+  return { positioned, visibleEdges, svgHeight: height };
 }
 
 export function KnowledgePage() {
@@ -304,7 +307,7 @@ export function KnowledgePage() {
     return filteredNodes;
   }, [focusNeighborsOnly, selectedNodeId, edges, nodes, filteredNodes]);
 
-  const { positioned, visibleEdges } = useMemo(
+  const { positioned, visibleEdges, svgHeight } = useMemo(
     () => computeNodePositions(graphNodesForSvg, edges, selectedNodeId, focusNeighborsOnly),
     [graphNodesForSvg, edges, selectedNodeId, focusNeighborsOnly],
   );
@@ -518,8 +521,9 @@ export function KnowledgePage() {
               ) : (
                 <div className="overflow-x-auto rounded-xl border border-slate-100 bg-slate-50/70">
                   <svg
-                    viewBox="0 0 920 520"
-                    className="h-[460px] w-full min-w-[680px] select-none"
+                    viewBox={`0 0 920 ${svgHeight}`}
+                    style={{ height: `${Math.max(460, Math.round(svgHeight * 0.85))}px` }}
+                    className="w-full min-w-[680px] select-none"
                     role="img"
                     aria-label="Đồ thị Tri thức Tiểu đường"
                   >
