@@ -306,35 +306,36 @@ export function DashboardPage() {
               </div>
 
               {latestAssessment.status === 'completed' && latestAssessment.prediction ? (
-                <div className="grid grid-cols-3 gap-3 rounded-xl bg-slate-50 p-3.5">
-                  <div>
-                    <p className="text-[11px] text-slate-500">Điểm nguy cơ</p>
-                    <p className="mt-0.5 text-lg font-bold text-slate-900">
-                      {(latestAssessment.prediction.model_score * 100).toFixed(1)}%
-                    </p>
+                <>
+                  <div className="grid grid-cols-3 gap-3 rounded-xl bg-slate-50 p-3.5">
+                    <div>
+                      <p className="text-[11px] text-slate-500">Điểm nguy cơ</p>
+                      <p className="mt-0.5 text-lg font-bold text-slate-900">
+                        {(latestAssessment.prediction.model_score * 100).toFixed(1)}%
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[11px] text-slate-500">BMI</p>
+                      <p className="mt-0.5 text-lg font-bold text-slate-900">
+                        {latestAssessment.derived_features?.bmi ?? '—'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[11px] text-slate-500">Vòng eo</p>
+                      <p className="mt-0.5 text-lg font-bold text-slate-900">
+                        {String(latestAssessment.raw_inputs?.waist_cm ?? '—')} cm
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-[11px] text-slate-500">BMI</p>
-                    <p className="mt-0.5 text-lg font-bold text-slate-900">
-                      {latestAssessment.derived_features?.bmi ?? '—'}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-[11px] text-slate-500">Vòng eo</p>
-                    <p className="mt-0.5 text-lg font-bold text-slate-900">
-                      {String(latestAssessment.raw_inputs?.waist_cm ?? '—')} cm
-                    </p>
-                  </div>
-                </div>
+                  <p className="line-clamp-3 text-xs leading-relaxed text-slate-600">
+                    {latestAssessment.summary_text}
+                  </p>
+                </>
               ) : (
                 <div className="rounded-xl border border-amber-200 bg-amber-50 p-3.5 text-xs leading-relaxed text-amber-900">
                   {latestAssessment.summary_text}
                 </div>
               )}
-
-              <p className="line-clamp-3 text-xs leading-relaxed text-slate-600">
-                {latestAssessment.summary_text}
-              </p>
 
               <div className="flex flex-wrap gap-2 pt-1">
                 <Link
