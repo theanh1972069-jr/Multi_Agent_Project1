@@ -40,12 +40,14 @@ Multi_Agent_Project1/
 ├── frontend/                     # React 18 + TypeScript + Vite + Tailwind CSS + Recharts (7 màn hình)
 ├── ml_pipeline/                  # Pipeline huấn luyện NHANES v2 & artifacts đã xác thực SHA-256
 ├── infrastructure/               # docker-compose.yml (PostgreSQL 16 + profiles backend/frontend)
-├── data/                         # SQLite DB, ChromaDB persist, KG JSON mirror, uploads (tự tạo khi chạy)
-├── docs/                         # Tài liệu đặc tả kiến trúc & kế hoạch triển khai
-├── GĐ2/                          # Kho lưu trữ nghiên cứu Giai đoạn 2 (giữ nguyên chỉ đọc)
-├── GĐ3/                          # Kho lưu trữ nghiên cứu & mô hình Giai đoạn 3 (giữ nguyên chỉ đọc)
-├── Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau/          # Nguồn tri thức y khoa chuẩn hóa (giữ nguyên)
-├── Giai-doan-5-Buoc-1-Contracts-Environment-Audit/   # Hợp đồng & kiểm tra môi trường GĐ5 (giữ nguyên)
+├── data/                         # Dữ liệu seed và dữ liệu runtime
+│   ├── seed/                     # Nguồn tri thức y khoa gốc (7 tài liệu) & dữ liệu NHANES (.xpt)
+│   ├── knowledge_graph/          # Diabetes Knowledge Graph JSON mirror
+│   └── ...                       # SQLite DB, ChromaDB persist, uploads (tự tạo khi chạy, gitignored)
+├── docs/                         # Tài liệu kiến trúc, báo cáo và lưu trữ nghiên cứu
+│   ├── architecture/             # Đặc tả thiết kế (specs), kế hoạch (plans) và sơ đồ kiến trúc (diagrams)
+│   ├── reports/                  # Tài liệu hướng dẫn & báo cáo PDF
+│   └── archive/                  # Kho lưu trữ nghiên cứu các giai đoạn 2–5 (chỉ đọc)
 ├── .env.example                  # Mẫu biến môi trường cho Local / Ollama / Gemini / OpenAI / Postgres / Neo4j
 └── pytest.ini                    # Cấu hình pytest
 ```

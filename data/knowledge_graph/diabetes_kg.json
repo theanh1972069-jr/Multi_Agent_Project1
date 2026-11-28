@@ -7,7 +7,7 @@
       "title": "Type 2 Diabetes",
       "source_url": "https://www.cdc.gov/diabetes/about/about-type-2-diabetes.html",
       "language": "en",
-      "file_path": "Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau/Giai-doan-4-Buoc-2-Jupyter-Document-Preparation/data/raw_approved/CDC-T2D-001.txt"
+      "file_path": "data/seed/knowledge_sources/CDC-T2D-001.txt"
     },
     {
       "source_id": "CDC-RISK-002",
@@ -15,7 +15,7 @@
       "title": "Diabetes Risk Factors",
       "source_url": "https://www.cdc.gov/diabetes/risk-factors/index.html",
       "language": "en",
-      "file_path": "Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau/Giai-doan-4-Buoc-2-Jupyter-Document-Preparation/data/raw_approved/CDC-RISK-002.txt"
+      "file_path": "data/seed/knowledge_sources/CDC-RISK-002.txt"
     },
     {
       "source_id": "NIDDK-DIAG-003",
@@ -23,7 +23,7 @@
       "title": "Diabetes Tests & Diagnosis",
       "source_url": "https://www.niddk.nih.gov/health-information/diabetes/overview/tests-diagnosis",
       "language": "en",
-      "file_path": "Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau/Giai-doan-4-Buoc-2-Jupyter-Document-Preparation/data/raw_approved/NIDDK-DIAG-003.txt"
+      "file_path": "data/seed/knowledge_sources/NIDDK-DIAG-003.txt"
     },
     {
       "source_id": "NIDDK-T2D-004",
@@ -31,7 +31,7 @@
       "title": "Type 2 Diabetes",
       "source_url": "https://www.niddk.nih.gov/health-information/diabetes/overview/what-is-diabetes/type-2-diabetes",
       "language": "en",
-      "file_path": "Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau/Giai-doan-4-Buoc-2-Jupyter-Document-Preparation/data/raw_approved/NIDDK-T2D-004.txt"
+      "file_path": "data/seed/knowledge_sources/NIDDK-T2D-004.txt"
     },
     {
       "source_id": "WHO-DIAB-005",
@@ -39,7 +39,7 @@
       "title": "Diabetes",
       "source_url": "https://www.who.int/health-topics/diabetes",
       "language": "en",
-      "file_path": "Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau/Giai-doan-4-Buoc-2-Jupyter-Document-Preparation/data/raw_approved/WHO-DIAB-005.txt"
+      "file_path": "data/seed/knowledge_sources/WHO-DIAB-005.txt"
     },
     {
       "source_id": "LC-HBA1C-006",
@@ -47,7 +47,7 @@
       "title": "HbA1c bao nhieu la tien tieu duong",
       "source_url": "https://nhathuoclongchau.com.vn/bai-viet/hb-a1c-bao-nhieu-la-tien-tieu-duong-nhan-biet-va-cai-thien.html",
       "language": "vi",
-      "file_path": "Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau/Giai-doan-4-Buoc-2-Jupyter-Document-Preparation/data/raw_approved/LC-HBA1C-006.txt"
+      "file_path": "data/seed/knowledge_sources/LC-HBA1C-006.txt"
     },
     {
       "source_id": "LC-STAGES-007",
@@ -55,7 +55,7 @@
       "title": "Cac giai doan cua benh tieu duong",
       "source_url": "https://nhathuoclongchau.com.vn/bai-viet/cac-giai-doan-cua-benh-tieu-duong-20966.html",
       "language": "vi",
-      "file_path": "Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau/Giai-doan-4-Buoc-2-Jupyter-Document-Preparation/data/raw_approved/LC-STAGES-007.txt"
+      "file_path": "data/seed/knowledge_sources/LC-STAGES-007.txt"
     }
   ],
   "nodes": [

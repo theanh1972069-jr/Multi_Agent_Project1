@@ -5,13 +5,9 @@ import json
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_DOCS_PREP_DIR = (
-    REPO_ROOT
-    / "Giai-doan-4-Bo-sung-Nha-thuoc-Long-Chau"
-    / "Giai-doan-4-Buoc-2-Jupyter-Document-Preparation"
-)
-DEFAULT_REGISTRY_CSV = DEFAULT_DOCS_PREP_DIR / "registry" / "source_registry.csv"
-DEFAULT_RAW_APPROVED_DIR = DEFAULT_DOCS_PREP_DIR / "data" / "raw_approved"
+DEFAULT_KNOWLEDGE_SEED_DIR = REPO_ROOT / "data" / "seed" / "knowledge_sources"
+DEFAULT_REGISTRY_CSV = DEFAULT_KNOWLEDGE_SEED_DIR / "source_registry.csv"
+DEFAULT_RAW_APPROVED_DIR = DEFAULT_KNOWLEDGE_SEED_DIR
 
 
 def load_default_source_registry() -> list[dict]:

@@ -33,17 +33,8 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from ml_pipeline.explain import CATEGORICAL_FEATURES, FEATURE_LABELS_VI, FEATURES, NUMERIC_FEATURES
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_RAW_DIR = REPO_ROOT / "GĐ3" / "03-ML-Research" / "data" / "raw"
-DEFAULT_GD3_BASELINE_PATH = (
-    REPO_ROOT
-    / "GĐ3"
-    / "03-ML-Research"
-    / "data"
-    / "outputs"
-    / "model_evaluation"
-    / "test_6b_FINAL"
-    / "06b_test_final_results.json"
-)
+DEFAULT_RAW_DIR = REPO_ROOT / "data" / "seed" / "nhanes_raw"
+DEFAULT_GD3_BASELINE_PATH = DEFAULT_RAW_DIR / "gd3_baseline_test_results.json"
 DEFAULT_ARTIFACTS_DIR = REPO_ROOT / "ml_pipeline" / "artifacts"
 
 RANDOM_STATE = 42

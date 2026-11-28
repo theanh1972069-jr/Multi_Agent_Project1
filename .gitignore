@@ -3,10 +3,13 @@
 **/.ipynb_checkpoints/
 **/.pytest_cache/
 **/.mypy_cache/
-Multi_Agent_Project1/
+.superpowers/
 .env
 *.db
 *.sqlite3
+*.log
+.DS_Store
+Thumbs.db
 data/chroma_kb/
 data/uploads/
 frontend/node_modules/
